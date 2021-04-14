@@ -11,5 +11,9 @@ namespace Api.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        public IActionResult getProducts()
+        {
+            return Ok();
+        }
     }
 }

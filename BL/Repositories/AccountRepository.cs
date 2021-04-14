@@ -1,5 +1,6 @@
 ﻿using BL.Bases;
 using DAL;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,6 +25,7 @@ namespace BL.Repositories
             this.manager = manager;
            
         }
+    
         public ApplicationUserIdentity GetAccountById(string id)
         {
             return GetFirstOrDefault(l => l.Id == id);

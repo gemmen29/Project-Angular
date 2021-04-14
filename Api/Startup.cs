@@ -46,6 +46,10 @@ namespace Api
             services.AddTransient<CategoryAppService>();
             services.AddTransient<CartAppService>();
             services.AddTransient<ProductAppService>();
+            services.AddTransient<ProductWishListAppService>();
+            services.AddTransient<WishlistAppService>();
+            services.AddTransient<ReviewsAppService>();
+            services.AddHttpContextAccessor();//allow me to get user information such as id
 
             services.AddSwaggerGen();
         }

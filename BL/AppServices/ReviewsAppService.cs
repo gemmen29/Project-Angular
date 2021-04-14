@@ -42,6 +42,7 @@ namespace BL.AppServices
         }
         public  bool AddOrUpdateReview(ReviewsViewModel reviewsViewModel)
         {
+            var result = false;
             if (reviewsViewModel == null)
                 throw new ArgumentNullException();
             //check if review exist or not 
@@ -50,15 +51,15 @@ namespace BL.AppServices
             if (review != null)
             {
                 reviewsViewModel.ID = review.ID;
-                UpdateReview(review,reviewsViewModel);
+                result= UpdateReview(review,reviewsViewModel);
             }
                 
             else
             {
-                SaveNewReview(reviewsViewModel);
+                result= SaveNewReview(reviewsViewModel);
             }
            
-            return true;
+            return result ;
         }
 
     }
