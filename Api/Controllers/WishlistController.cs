@@ -27,6 +27,7 @@ namespace Api.Controllers
             this._productAppService = productAppService;
             this._wishlistAppService = wishlistAppService;
             this._productWishListAppService = productWishListAppService;
+            this._httpContextAccessor = httpContextAccessor;
         }
         [HttpGet]
         public IActionResult getUserWishList()
@@ -47,6 +48,7 @@ namespace Api.Controllers
             }
             return Ok(productViewModels);
         }
+        [HttpPost]
         public IActionResult AddProductToWishList(int id)
         {
             //get wishlist of current logged user
@@ -66,6 +68,7 @@ namespace Api.Controllers
                 return BadRequest("this product already exist in wishList");
                 //this product exist in the wishlist you can not add it again
         }
+        [HttpDelete]
         public IActionResult DeleteFromWishList(int producID)
         {
             var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
