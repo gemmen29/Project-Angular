@@ -39,7 +39,6 @@ namespace Api.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-
             return Ok(_orderAppService.GetAllOrder());
         }
 
@@ -50,7 +49,8 @@ namespace Api.Controllers
         {
 
             //get cart id of current logged user
-            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userID = "19";
+            //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var cartID = _cartAppService.GetAllCarts().Where(c => c.ApplicationUserIdentity_Id == userID)
                                                            .Select(c => c.ID).FirstOrDefault();
             //get product ids from this card

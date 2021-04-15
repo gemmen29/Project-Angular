@@ -46,12 +46,18 @@ namespace Api
             services.AddTransient<UserManager<ApplicationUserIdentity>>();
             services.AddTransient<RoleManager<IdentityRole>>();
             services.AddTransient<AccountAppService>();
-            services.AddTransient<CategoryAppService>();
             services.AddTransient<CartAppService>();
+            services.AddTransient<CategoryAppService>();
+            services.AddTransient<OrderAppService>();
+            services.AddTransient<OrderProductAppService>();
+            services.AddTransient<PaymentAppService>();
             services.AddTransient<ProductAppService>();
+            services.AddTransient<ProductCartAppService>();
             services.AddTransient<ProductWishListAppService>();
             services.AddTransient<WishlistAppService>();
             services.AddTransient<ReviewsAppService>();
+            services.AddTransient<RoleAppService>();
+            services.AddTransient<WishlistAppService>();
             services.AddHttpContextAccessor();//allow me to get user information such as id
 
             services.AddSwaggerGen();

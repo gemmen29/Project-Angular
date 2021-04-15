@@ -38,7 +38,8 @@ namespace Api.Controllers
 
             //get all products in specfic cart
             //firs get cart id of logged user
-            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userID = "19";
+            //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var cartID = _cartAppService.GetAllCarts().Where(c => c.ApplicationUserIdentity_Id == userID)
                                                            .Select(c => c.ID).FirstOrDefault();
             var productIDs = _productCartAppService.GetAllProductCart().Where(pc => pc.cartId == cartID).Select(prc => prc.productId);
@@ -57,11 +58,12 @@ namespace Api.Controllers
             return Ok(cardDetailsViewModel);
         }
 
-        [HttpPost]
-        public void AddProductToCart(int id)
+        [HttpPut("{id}")]
+        public IActionResult AddProductToCart(int id)
         {
             //get cart of current logged user
-            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userID = "19";
+            //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var cartID = _cartAppService.GetAllCarts().Where(c => c.ApplicationUserIdentity_Id == userID)
                                                            .Select(c => c.ID).FirstOrDefault();
             var productCartViewModel = new ProductCartViewModel() { cartId = cartID, productId = id };
@@ -69,27 +71,31 @@ namespace Api.Controllers
                                                  .FirstOrDefault(c => c.cartId == productCartViewModel.cartId && c.productId == productCartViewModel.productId);
 
             if (isExistingProductCartViewModel == null)
-                _productCartAppService.SaveNewProductCart(productCartViewModel);
-            else
             {
-                //this product exist in the cart you can not add it again
+                _productCartAppService.SaveNewProductCart(productCartViewModel);
+                return Ok();
             }
-            //return RedirectToAction("Index");
+            return BadRequest("This product already exist in cart");
 
         }
 
-        [HttpDelete]
-        public ActionResult DeleteFromCart(int productID)
+        [HttpDelete("{id}")]
+        public ActionResult DeleteProductFromCart(int id)
         {
-            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userID = "19";
+            //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var cartID = _cartAppService.GetAllCarts().Where(c => c.ApplicationUserIdentity_Id == userID)
                                                            .Select(c => c.ID).FirstOrDefault();
-            var productCartViewModel = new ProductCartViewModel() { cartId = cartID, productId = productID };
+            var productCartViewModel = new ProductCartViewModel() { cartId = cartID, productId = id };
             var deletedProductCart = _productCartAppService.GetAllProductCart()
                                                  .FirstOrDefault(c => c.cartId == productCartViewModel.cartId && c.productId == productCartViewModel.productId);
+            if(deletedProductCart == null)
+                return Content("Product Not Found");
 
-            _productCartAppService.DeleteProductCart(deletedProductCart.ID);
-            return RedirectToAction("Index");
+            var isDeleted = _productCartAppService.DeleteProductCart(deletedProductCart.ID);
+            if (isDeleted)
+                return Content("Deleted succfully");
+            return Content("Error Occur In Deletion");
         }
     }
 }
