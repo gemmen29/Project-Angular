@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using DAL;
 using BL.StaticClasses;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
@@ -38,6 +39,7 @@ namespace Api.Controllers
             return Ok(res);
         }
         [HttpPost("/RegisterAdmin")]
+        [Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterViewodel model)
         {
 
@@ -57,27 +59,24 @@ namespace Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            bool isExist = await _accountAppService.checkUserNameExist(model.UserName);
-            if (isExist)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
-
             var result = await _accountAppService.Register(model);
 
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, 
+                    new Response { Status = "Error", Message = result.Errors.FirstOrDefault().Description });
 
             ApplicationUserIdentity identityUser = await _accountAppService.Find(model.UserName, model.PasswordHash);
-            //signinmanager.SignIn(identityUser, true, true);
-            //create cart for new user
-            CartViewModel cartViewModel = new CartViewModel() { ApplicationUserIdentity_Id = identityUser.Id };
-            _cartAppService.SaveNewCart(cartViewModel);
+            #region oldCreateCartWishlist
+            ////create cart for new user
+            //CartViewModel cartViewModel = new CartViewModel() { ApplicationUserIdentity_Id = identityUser.Id };
+            //_cartAppService.SaveNewCart(cartViewModel);
 
-            WishlistViewModel wishlistViewModel = new WishlistViewModel() { ApplicationUserIdentity_Id = identityUser.Id };
-            _wishlistAppService.SaveNewWishlist(wishlistViewModel);
-
+            //WishlistViewModel wishlistViewModel = new WishlistViewModel() { ApplicationUserIdentity_Id = identityUser.Id };
+            //_wishlistAppService.SaveNewWishlist(wishlistViewModel);
+            #endregion
             //create roles
-           await _roleAppService.CreateRoles();
-            await _accountAppService.AssignToRole(identityUser.Id, UserRoles.User);
+            //await _roleAppService.CreateRoles();
+            await _accountAppService.AssignToRole(identityUser.Id, roleName);
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
 
         }

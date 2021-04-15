@@ -39,11 +39,8 @@ namespace BL.Repositories
         }
         public async Task<ApplicationUserIdentity> FindByName(string userName)
         {
-
             ApplicationUserIdentity result = await manager.FindByNameAsync(userName);
-
             return result;
-
         }
         public async Task<IEnumerable<string>> GetUserRoles(ApplicationUserIdentity user)
         {

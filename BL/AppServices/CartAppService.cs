@@ -32,13 +32,23 @@ namespace BL.AppServices
 
 
 
-        public bool SaveNewCart(CartViewModel cartViewModel)
+        //public bool SaveNewCart(CartViewModel cartViewModel)
+        //{
+        //    if(cartViewModel == null)
+        //        throw new ArgumentNullException();
+        //    bool result = false;
+        //    var cart = Mapper.Map<Cart>(cartViewModel);
+        //    if (TheUnitOfWork.Cart.Insert(cart))
+        //    {
+        //        result = TheUnitOfWork.Commit() > new int();
+        //    }
+        //    return result;
+        //}
+        public bool CreateUserCart(string userId)
         {
-            if(cartViewModel == null)
-                throw new ArgumentNullException();
             bool result = false;
-            var cart = Mapper.Map<Cart>(cartViewModel);
-            if (TheUnitOfWork.Cart.Insert(cart))
+            Cart userCart = new Cart() { ApplicationUserIdentity_Id = userId };
+            if (TheUnitOfWork.Cart.Insert(userCart))
             {
                 result = TheUnitOfWork.Commit() > new int();
             }

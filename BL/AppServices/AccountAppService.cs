@@ -1,7 +1,9 @@
 ﻿using BL.Bases;
 using BL.Interfaces;
+using BL.StaticClasses;
 using BL.ViewModels;
 using DAL;
+using DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -18,12 +20,21 @@ namespace BL.AppServices
     public class AccountAppService : AppServiceBase
     {
         IConfiguration _configuration;
+        CartAppService _cartAppService;
+        WishlistAppService _wishlistAppService;
 
-        public AccountAppService(IUnitOfWork theUnitOfWork,IConfiguration configuration) : base(theUnitOfWork)
+        public AccountAppService(IUnitOfWork theUnitOfWork,IConfiguration configuration,
+            CartAppService cartAppService, WishlistAppService wishlistAppService) : base(theUnitOfWork)
         {
             this._configuration = configuration;
+            this._cartAppService = cartAppService;
+            this._wishlistAppService = wishlistAppService;
         }
-        //Login
+        private void CreateUserCartAndWishlist(string userId)
+        {
+            _wishlistAppService.CreateUserWishlist(userId);
+            _cartAppService.CreateUserCart(userId);
+        }
         public List<RegisterViewodel> GetAllAccounts()
         {
             return Mapper.Map<List<RegisterViewodel>>(TheUnitOfWork.Account.GetAllAccounts().Where(ac => ac.isDeleted == false));
@@ -56,20 +67,35 @@ namespace BL.AppServices
                 return user;
             return null;
         }
+        public async Task<ApplicationUserIdentity> FindByName(string userName)
+        {
+            ApplicationUserIdentity user = await TheUnitOfWork.Account.FindByName(userName);
+
+            if (user != null && user.isDeleted == false)
+                return user;
+            return null;
+        }
         public async Task<IdentityResult> Register(RegisterViewodel user)
         {
+            bool isExist = await checkUserNameExist(user.UserName);
+            if(isExist)
+                return IdentityResult.Failed(new IdentityError
+                { Code = "error", Description = "user name already exist" });
 
             ApplicationUserIdentity identityUser = Mapper.Map<RegisterViewodel, ApplicationUserIdentity>(user);
-            return await TheUnitOfWork.Account.Register(identityUser);
-
+            var result = await TheUnitOfWork.Account.Register(identityUser);
+            // create user cart and wishlist 
+            if (result.Succeeded)
+            {
+                CreateUserCartAndWishlist(identityUser.Id);
+            }
+            return result;
         }
         public async Task<IdentityResult> AssignToRole(string userid, string rolename)
         {
             if (userid == null || rolename == null)
-                throw new ArgumentNullException();
+                return null;
             return await TheUnitOfWork.Account.AssignToRole(userid, rolename);
-
-
         }
         public async Task<bool> UpdatePassword(string userID, string newPassword)
         {
@@ -143,6 +169,25 @@ namespace BL.AppServices
             } ;
 
            
+        }
+
+        public async Task CreateFirstAdmin()
+        {
+            var firstAdmin = new RegisterViewodel()
+            {
+                Id = null,
+                Email = "test@gmail.com",
+                FirstName = "first",
+                LastName = "user",
+                UserName = "admin",
+                PasswordHash = "@Admin12345",
+                BirthDate = DateTime.Now,
+                isDeleted = false
+            };
+            Register(firstAdmin).Wait();
+            ApplicationUserIdentity foundedAdmin = await FindByName(firstAdmin.UserName);
+            if(foundedAdmin != null)
+                AssignToRole(foundedAdmin.Id, UserRoles.Admin).Wait();
         }
 
     }

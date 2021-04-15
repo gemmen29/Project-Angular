@@ -18,9 +18,9 @@ namespace BL.AppServices
         }
         public List<ProductViewModel> GetAllProduct()
         {
-            var tt = TheUnitOfWork.Product.GetAllProduct();
+            var allProducts = TheUnitOfWork.Product.GetAllProduct();
 
-            return Mapper.Map<List<ProductViewModel>>(tt);
+            return Mapper.Map<List<ProductViewModel>>(allProducts);
         }
         public List<ProductViewModel> GetAllProductWhere(int categoryID)
         {

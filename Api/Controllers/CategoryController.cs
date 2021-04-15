@@ -1,5 +1,7 @@
 ﻿using BL.AppServices;
+using BL.StaticClasses;
 using BL.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +13,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = UserRoles.Admin)]
     public class CategoryController : ControllerBase
     {
         CategoryAppService _categoryAppService;

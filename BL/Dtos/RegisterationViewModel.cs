@@ -36,8 +36,8 @@ namespace BL.ViewModels
         public string  Country { get; set; }
         [DataType(DataType.Date)]
 
-        
         public DateTime BirthDate { get; set; }
+
         [Required]
         [MinLength(3)]
         [DataType(DataType.Text)]
