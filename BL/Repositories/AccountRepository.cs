@@ -34,6 +34,20 @@ namespace BL.Repositories
         {
             return GetAll().ToList();
         }
+        public async Task<ApplicationUserIdentity> FindByName(string userName)
+        {
+
+            ApplicationUserIdentity result = await manager.FindByNameAsync(userName);
+
+            return result;
+
+        }
+        public async Task<IEnumerable<string>> GetUserRoles(ApplicationUserIdentity user)
+        {
+            var userRoles = await manager.GetRolesAsync(user);
+            return userRoles;
+        }
+
         public async Task<ApplicationUserIdentity> FindById(string id)
         {
 

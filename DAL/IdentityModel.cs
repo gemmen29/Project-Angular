@@ -76,6 +76,10 @@ namespace DAL
             optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=TestCore2;Integrated Security=True"
                 , options => options.EnableRetryOnFailure());
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
         public ApplicationDBContext()
         {
 
