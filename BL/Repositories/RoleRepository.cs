@@ -1,4 +1,5 @@
 ﻿using BL.Bases;
+using BL.StaticClasses;
 using BL.ViewModels;
 using DAL;
 
@@ -16,10 +17,11 @@ namespace BL.Repositories
     public class RoleRepository : BaseRepository<IdentityRole>
     {
         RoleManager<IdentityRole> manager;
-        
+     
         public RoleRepository(DbContext db, RoleManager<IdentityRole> manager) :base(db)
         {
             this.manager = manager;
+         
          
         }
         public IdentityRole GetRoleByID(string id)
@@ -27,6 +29,15 @@ namespace BL.Repositories
             return GetFirstOrDefault(r => r.Id == id);
         }
 
+        public async Task CreateRoles()
+        {
+            
+            if (!await manager.RoleExistsAsync(UserRoles.Admin))
+                await manager.CreateAsync(new IdentityRole(UserRoles.Admin));
+            if (!await manager.RoleExistsAsync(UserRoles.User))
+                await manager.CreateAsync(new IdentityRole(UserRoles.User));
+
+        }
         public IdentityResult Create(string role)
         {
             return manager.CreateAsync(new IdentityRole(role)).Result;

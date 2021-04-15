@@ -102,9 +102,9 @@ namespace BL.AppServices
             return await TheUnitOfWork.Account.UpdateAccount(identityUser);
 
         }
-        public bool checkUserNameExist(string userName)
+        public async Task<bool> checkUserNameExist(string userName)
         {
-            var user = TheUnitOfWork.Account.FindByName(userName);
+            var user = await TheUnitOfWork.Account.FindByName(userName);
             return user == null ? false : true;
         }
         public async Task<IEnumerable<string>> GetUserRoles (ApplicationUserIdentity user)

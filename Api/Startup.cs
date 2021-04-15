@@ -49,6 +49,7 @@ namespace Api
             services.AddTransient<CartAppService>();
             services.AddTransient<CategoryAppService>();
             services.AddTransient<OrderAppService>();
+          
             services.AddTransient<OrderProductAppService>();
             services.AddTransient<PaymentAppService>();
             services.AddTransient<ProductAppService>();

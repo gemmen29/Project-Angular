@@ -18,6 +18,8 @@ namespace BL.Bases
         private DbContext EC_DbContext { get; set; }
         private UserManager<ApplicationUserIdentity> _userManager;
         private RoleManager<IdentityRole> _roleManager;
+  
+
         #endregion
 
         #region Constructors
@@ -26,6 +28,7 @@ namespace BL.Bases
             this._userManager = userManager;
             this._roleManager = roleManager;
             this.EC_DbContext = EC_DbContext;//
+      
 
             // Avoid load navigation properties
             //EC_DbContext.Configuration.LazyLoadingEnabled = false;
@@ -148,7 +151,7 @@ namespace BL.Bases
             get
             {
                 if (account == null)
-                    account = new AccountRepository(EC_DbContext,_userManager);
+                    account = new AccountRepository(EC_DbContext,_userManager,_roleManager);
                 return account;
             }
         }

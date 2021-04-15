@@ -1,4 +1,5 @@
 ﻿using BL.Bases;
+using BL.StaticClasses;
 using DAL;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -16,13 +17,15 @@ namespace BL.Repositories
     public class AccountRepository: BaseRepository<ApplicationUserIdentity>
     {
         private readonly UserManager<ApplicationUserIdentity> manager;
-       // ApplicationUserManager manager;
-      
+        private readonly RoleManager<IdentityRole> roleManager;
+        // ApplicationUserManager manager;
 
-        public AccountRepository(DbContext db, UserManager<ApplicationUserIdentity> manager) : base(db)
+
+        public AccountRepository(DbContext db, UserManager<ApplicationUserIdentity> manager, RoleManager<IdentityRole> roleManager) : base(db)
         {
             //manager = new ApplicationUserManager(db);
             this.manager = manager;
+            this.roleManager = roleManager;
            
         }
     
@@ -72,43 +75,31 @@ namespace BL.Repositories
             //return new ApplicationUserIdentity();
 
         }
+      
         public async Task <IdentityResult> Register(ApplicationUserIdentity user)
         {
             user.Id = Guid.NewGuid().ToString();
             IdentityResult result;
-
                 result = await manager.CreateAsync(user, user.PasswordHash);
-            
-            //catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
-            //{
-            //    Exception raise = dbEx;
-            //    foreach (var validationErrors in dbEx.EntityValidationErrors)
-            //    {
-            //        foreach (var validationError in validationErrors.ValidationErrors)
-            //        {
-            //            string message = string.Format("{0}:{1}",
-            //                validationErrors.Entry.Entity.ToString(),
-            //                validationError.ErrorMessage);
-            //            // raise a new exception nesting  
-            //            // the current instance as InnerException  
-            //            raise = new InvalidOperationException(message, raise);
-            //        }
-            //    }
-            //    throw raise;
-            //}
-
-          
-           // manager.AddToRole(user.Id,"Admin");
+           
             return result;
         }
         public async Task <IdentityResult> AssignToRole(string userid, string rolename)
         {
-            List<string> roles = new List<string>();
-            roles.Add(rolename);
+            //List<string> roles = new List<string>();
+            //roles.Add(rolename);
+            //var user = await manager.FindByIdAsync(userid);
+            //if (user != null)
+            //{
+            //    IdentityResult result = await manager.AddToRolesAsync(user,roles);
+            //    return result;
+            //}
+            //return null;
+
             var user = await manager.FindByIdAsync(userid);
-            if(user != null)
+            if ( user != null && await roleManager.RoleExistsAsync(rolename))
             {
-                IdentityResult result = await manager.AddToRolesAsync(user,roles);
+                IdentityResult result=  await manager.AddToRoleAsync(user, rolename);
                 return result;
             }
             return null;

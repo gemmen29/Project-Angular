@@ -18,6 +18,10 @@ namespace BL.AppServices
         {
 
         }
+        public async Task CreateRoles()
+        {
+           await TheUnitOfWork.Role.CreateRoles();
+        }
         public RoleViewModel GetRoleById(string id)
         {
             if (id == null || id == "")
