@@ -43,8 +43,8 @@ namespace Api
             //services.AddTransient <,>
             services.AddIdentity<ApplicationUserIdentity, IdentityRole>().AddEntityFrameworkStores<ApplicationDBContext>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient< UserManager<ApplicationUserIdentity>>();
-            services.AddTransient< RoleManager<IdentityRole>>();
+            services.AddTransient<UserManager<ApplicationUserIdentity>>();
+            services.AddTransient<RoleManager<IdentityRole>>();
             services.AddTransient<AccountAppService>();
             services.AddTransient<CategoryAppService>();
             services.AddTransient<CartAppService>();

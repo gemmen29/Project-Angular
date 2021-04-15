@@ -36,9 +36,9 @@ namespace Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            bool isExist = _accountAppService.checkUserNameExist(model.UserName);
+            /*bool isExist = _accountAppService.checkUserNameExist(model.UserName);
             if (isExist)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });*/
 
             var result = await _accountAppService.Register(model);
 
@@ -53,7 +53,7 @@ namespace Api.Controllers
             var user = await _accountAppService.Find(model.UserName, model.PasswordHash);
             if (user != null )
             {
-                var token = _accountAppService.CreateToken(user);
+                dynamic token = await _accountAppService.CreateToken(user);
                
                 return Ok(token);
             }

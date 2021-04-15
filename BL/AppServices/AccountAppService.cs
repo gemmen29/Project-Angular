@@ -140,7 +140,7 @@ namespace BL.AppServices
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token),
                 expiration = token.ValidTo
-            };
+            } ;
 
            
         }
