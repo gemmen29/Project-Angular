@@ -2,6 +2,7 @@
 using BL.StaticClasses;
 using BL.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,8 +13,8 @@ using System.Threading.Tasks;
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    [Authorize(Roles = UserRoles.Admin)]
+    [ApiController, EnableCors("AllowOrigin")]
+    [Authorize]
     public class CategoryController : ControllerBase
     {
         CategoryAppService _categoryAppService;
@@ -24,7 +25,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult GetAllCategories()
         {
             return Ok(_categoryAppService.GetAllCateogries());
         }

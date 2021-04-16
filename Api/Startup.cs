@@ -34,7 +34,11 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-          
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
+
             services.AddControllers();
             services.AddDbContext<ApplicationDBContext>(option => {
                 option.UseSqlServer(Configuration.GetConnectionString("CS"), 
@@ -60,6 +64,7 @@ namespace Api
             services.AddTransient<RoleAppService>();
             services.AddTransient<WishlistAppService>();
             services.AddHttpContextAccessor();//allow me to get user information such as id
+            
 
             services.AddSwaggerGen();
             services.AddAuthentication(options =>
@@ -68,6 +73,7 @@ namespace Api
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
+
          // Adding Jwt Bearer  
          .AddJwtBearer(options =>
          {
@@ -103,11 +109,16 @@ namespace Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCors(
+                options => options
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials());
+                
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
