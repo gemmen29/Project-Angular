@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, EnableCors("AllowOrigin")]
+    [ApiController]
     [Authorize]
     public class CategoryController : ControllerBase
     {
