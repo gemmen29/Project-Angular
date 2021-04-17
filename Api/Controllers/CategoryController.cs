@@ -58,7 +58,7 @@ namespace Api.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public IActionResult Edit(int id, CategoryViewModel categoryViewModel)
         {
 
@@ -77,12 +77,12 @@ namespace Api.Controllers
             }
         }
 
-        [HttpDelete]
-        public IActionResult Delete(int catID)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
             try
             {
-                _categoryAppService.DeleteCategory(catID);
+                _categoryAppService.DeleteCategory(id);
                 return NoContent();
             }
             catch (Exception ex)
