@@ -73,5 +73,16 @@ namespace BL.AppServices
             return TheUnitOfWork.Category.CheckCategoryExists(category);
         }
         #endregion
+
+        #region pagination
+        public int CountEntity()
+        {
+            return TheUnitOfWork.Category.CountEntity();
+        }
+        public IEnumerable<CategoryViewModel> GetPageRecords(int pageSize, int pageNumber)
+        {
+            return Mapper.Map<List<CategoryViewModel>>(TheUnitOfWork.Category.GetPageRecords(pageSize, pageNumber));
+        }
+        #endregion
     }
 }

@@ -35,8 +35,6 @@ namespace BL.Bases
         public virtual IQueryable<T> GetAll()
         {
             var dd = DbSet;
-
-
             return dd;
         }
 
@@ -166,5 +164,18 @@ namespace BL.Bases
         }
         #endregion
 
+        #region pagination
+        public virtual int CountEntity()
+        {
+            return DbSet.Count();
+        }
+        public virtual IEnumerable<T> GetPageRecords(int pageSize, int pageNumber)
+        {
+            pageSize = (pageSize <= 0) ? 10 : pageSize;
+            pageNumber = (pageNumber < 1) ? 0 : pageNumber - 1;
+
+            return DbSet.Skip(pageNumber * pageSize).Take(pageSize).ToList();
+        }
+        #endregion
     }
 }

@@ -14,7 +14,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class CategoryController : ControllerBase
     {
         CategoryAppService _categoryAppService;
@@ -89,6 +89,17 @@ namespace Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+    
+        [HttpGet("count")]
+        public IActionResult CategoriesCount()
+        {
+            return Ok(_categoryAppService.CountEntity());
+        }
+        [HttpGet("{pageSize}/{pageNumber}")]
+        public IActionResult GetCategoriesByPage(int pageSize, int pageNumber)
+        {
+            return Ok(_categoryAppService.GetPageRecords(pageSize, pageNumber));
         }
     }
 }
