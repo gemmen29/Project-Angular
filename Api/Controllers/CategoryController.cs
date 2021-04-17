@@ -29,6 +29,11 @@ namespace Api.Controllers
         {
             return Ok(_categoryAppService.GetAllCateogries());
         }
+        [HttpGet("{id}")]
+        public IActionResult GetCategoryById(int id)
+        {
+            return Ok(_categoryAppService.GetCategory(id));
+        }
 
         [HttpPost]
         public IActionResult Create(CategoryViewModel categoryViewModel)
@@ -41,10 +46,10 @@ namespace Api.Controllers
             try
             {
                 _categoryAppService.SaveNewCategory(categoryViewModel);
-
+                
                 //string urlDetails = Url.Link("DefaultApi", new { id = categoryViewModel.ID });
                 //return Created(urlDetails, "Added Sucess");
-                return Created("CreateCategory" , categoryViewModel.Name);
+                return Created("CreateCategory" , categoryViewModel);
             }
             catch (Exception ex)
             {
@@ -64,7 +69,7 @@ namespace Api.Controllers
             try
             {
                 _categoryAppService.UpdateCategory(categoryViewModel);
-                return NoContent();
+                return Ok(categoryViewModel);
             }
             catch (Exception ex)
             {
