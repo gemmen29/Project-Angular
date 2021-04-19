@@ -28,7 +28,7 @@ namespace DAL.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -64,6 +64,19 @@ namespace DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Category", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Color",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Color", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -263,11 +276,11 @@ namespace DAL.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Discount = table.Column<double>(type: "float", nullable: false),
-                    image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    ColorId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -278,6 +291,12 @@ namespace DAL.Migrations
                         principalTable: "Category",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Product_Color_ColorId",
+                        column: x => x.ColorId,
+                        principalTable: "Color",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -460,6 +479,11 @@ namespace DAL.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Product_ColorId",
+                table: "Product",
+                column: "ColorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductCarts_CartID",
                 table: "ProductCarts",
                 column: "CartID");
@@ -547,6 +571,9 @@ namespace DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Category");
+
+            migrationBuilder.DropTable(
+                name: "Color");
         }
     }
 }

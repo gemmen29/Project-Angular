@@ -63,6 +63,7 @@ namespace Api
             services.AddTransient<ReviewsAppService>();
             services.AddTransient<RoleAppService>();
             services.AddTransient<WishlistAppService>();
+            services.AddTransient<ColorAppService>();
             services.AddHttpContextAccessor();//allow me to get user information such as id
             
 

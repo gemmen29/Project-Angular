@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BL.Bases;
 using BL.Interfaces;
-using BL.ViewModels;
+using BL.Dtos;
 using DAL;
 using DAL.Models;
 using System;

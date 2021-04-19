@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BL.AppServices;
-using BL.ViewModels;
+using BL.Dtos;
 
 namespace Api.Controllers
 {

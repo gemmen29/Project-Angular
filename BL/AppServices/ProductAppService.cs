@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BL.Bases;
 using BL.Interfaces;
-using BL.ViewModels;
+using BL.Dtos;
 using DAL.Models;
 
 namespace BL.AppServices
@@ -60,8 +60,8 @@ namespace BL.AppServices
         public bool UpdateProduct(ProductViewModel productViewModel)
         {
             var productFromDb= TheUnitOfWork.Product.GetById(productViewModel.ID);
-            if(productViewModel.image == null)
-                productViewModel.image = productFromDb.image;
+            if(productViewModel.Image == null)
+                productViewModel.Image = productFromDb.Image;
             //var product = Mapper.Map<Product>(productViewModel);
             Mapper.Map(productViewModel, productFromDb);
             TheUnitOfWork.Product.Update(productFromDb);
@@ -83,9 +83,6 @@ namespace BL.AppServices
        
            
         }
-
-
-
         public bool DeleteProduct(int id)
         {
             bool result = false;
@@ -95,13 +92,22 @@ namespace BL.AppServices
 
             return result;
         }
-
         public bool CheckProductExists(ProductViewModel productViewModel)
         {
             Product product = Mapper.Map<Product>(productViewModel);
             return TheUnitOfWork.Product.CheckProductExists(product);
         }
 
+        #region pagination
+        public int CountEntity()
+        {
+            return TheUnitOfWork.Product.CountEntity();
+        }
+        public IEnumerable<ProductViewModel> GetPageRecords(int pageSize, int pageNumber)
+        {
+            return Mapper.Map<List<ProductViewModel>>(TheUnitOfWork.Product.GetPageRecords(pageSize, pageNumber));
+        }
+        #endregion
 
     }
 }

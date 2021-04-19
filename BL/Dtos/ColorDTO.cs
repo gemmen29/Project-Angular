@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BL.Dtos
 {
-    public class ProductCartViewModel
+    public class ColorDTO
     {
         public int ID { get; set; }
-        public int productId { get; set; }
-        public int cartId { get; set; }
+        [Required]
+        public string Name { get; set; }
     }
 }

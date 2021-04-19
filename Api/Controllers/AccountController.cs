@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BL.AppServices;
-using BL.ViewModels;
+using BL.Dtos;
 using Api.HelpClasses;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
@@ -39,7 +39,7 @@ namespace Api.Controllers
             return Ok(res);
         }
         [HttpPost("/RegisterAdmin")]
-        [Authorize(Roles = UserRoles.Admin)]
+        //[Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> RegisterAdmin([FromBody] RegisterViewodel model)
         {
 
@@ -91,6 +91,17 @@ namespace Api.Controllers
                 return Ok(token);
             }
             return Unauthorized();
+        }
+
+        [HttpGet("count")]
+        public IActionResult UsersCount()
+        {
+            return Ok(_accountAppService.CountEntity());
+        }
+        [HttpGet("{pageSize}/{pageNumber}")]
+        public IActionResult GetCategoriesByPage(int pageSize, int pageNumber)
+        {
+            return Ok(_accountAppService.GetPageRecords(pageSize, pageNumber));
         }
     }
 }

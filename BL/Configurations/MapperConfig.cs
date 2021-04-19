@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BL.ViewModels;
+using BL.Dtos;
 using DAL;
 using DAL.Models;
 using Microsoft.AspNetCore.Identity;
@@ -41,6 +41,8 @@ namespace BL.Configurations
 
                     cfg.CreateMap<ApplicationUserIdentity, LoginViewModel>().ReverseMap();
                     cfg.CreateMap<ApplicationUserIdentity, RegisterViewodel>().ReverseMap();
+
+                    cfg.CreateMap<Color, ColorDTO>().ReverseMap();
                     //cfg.CreateMap<IdentityResult, ResultStatue>().ReverseMap();
 
                 });

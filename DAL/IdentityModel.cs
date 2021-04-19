@@ -41,7 +41,7 @@ namespace DAL
 
         }
     }
-    
+
 
 
     //public class ApplicationRoleManager : RoleManager<IdentityRole>
@@ -70,7 +70,7 @@ namespace DAL
 
     //}
     public class ApplicationDBContext : IdentityDbContext<ApplicationUserIdentity>
-        {
+    {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=TestCore2;Integrated Security=True"
@@ -85,18 +85,19 @@ namespace DAL
 
         }
         public ApplicationDBContext(DbContextOptions options) : base(options)
-            {
+        {
 
-            }
-            public virtual DbSet<Order> Orders { get; set; }
-            public virtual DbSet<Category> Categories { get; set; }
-            public virtual DbSet<Cart> Carts { get; set; }
-            public virtual DbSet<Product> Products { get; set; }
-            public virtual DbSet<Wishlist> Wishlists { get; set; }
-            public virtual DbSet<Payment> Payments { get; set; }
-            public virtual DbSet<Reviews> Reviews { get; set; }
+        }
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Cart> Carts { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Wishlist> Wishlists { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
+        public virtual DbSet<Reviews> Reviews { get; set; }
+        public virtual DbSet<Color> Colors { get; set; }
 
-            public virtual DbSet<ProductCart> ProductCarts { get; set; }
+        public virtual DbSet<ProductCart> ProductCarts { get; set; }
             public virtual DbSet<ProductWishList> ProductWishLists { get; set; }
             public virtual DbSet<OrderProduct> OrderProducts { get; set; }
 

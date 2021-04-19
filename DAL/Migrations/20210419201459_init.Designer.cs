@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20210413223221_init")]
+    [Migration("20210419201459_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,7 @@ namespace DAL.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("BirthDate")
+                    b.Property<DateTime?>("BirthDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -139,6 +139,21 @@ namespace DAL.Migrations
                     b.ToTable("Category");
                 });
 
+            modelBuilder.Entity("DAL.Models.Color", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Color");
+                });
+
             modelBuilder.Entity("DAL.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -241,8 +256,8 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<string>("Color")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ColorId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -250,6 +265,9 @@ namespace DAL.Migrations
 
                     b.Property<double>("Discount")
                         .HasColumnType("float");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -261,12 +279,11 @@ namespace DAL.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<string>("image")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ID");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ColorId");
 
                     b.ToTable("Product");
                 });
@@ -545,7 +562,13 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("DAL.Models.Color", "Color")
+                        .WithMany("Products")
+                        .HasForeignKey("ColorId");
+
                     b.Navigation("Category");
+
+                    b.Navigation("Color");
                 });
 
             modelBuilder.Entity("DAL.Models.ProductCart", b =>
@@ -674,6 +697,11 @@ namespace DAL.Migrations
                 });
 
             modelBuilder.Entity("DAL.Models.Category", b =>
+                {
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("DAL.Models.Color", b =>
                 {
                     b.Navigation("Products");
                 });
