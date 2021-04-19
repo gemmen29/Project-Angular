@@ -189,6 +189,16 @@ namespace BL.AppServices
             if(foundedAdmin != null)
                 AssignToRole(foundedAdmin.Id, UserRoles.Admin).Wait();
         }
+        #region pagination
+        public int CountEntity()
+        {
+            return TheUnitOfWork.Account.CountEntity();
+        }
+        public IEnumerable<RegisterViewodel> GetPageRecords(int pageSize, int pageNumber)
+        {
+            return Mapper.Map<List<RegisterViewodel>>(TheUnitOfWork.Account.GetPageRecords(pageSize, pageNumber));
+        }
+        #endregion
 
     }
 }
