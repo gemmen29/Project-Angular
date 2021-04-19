@@ -86,6 +86,14 @@ namespace BL.AppServices
             return TheUnitOfWork.Order.CheckOrderExists(order);
         }
         #endregion
+        public int CountEntity()
+        {
+            return TheUnitOfWork.Order.CountEntity();
+        }
+        public IEnumerable<OrderViewModel> GetPageRecords(int pageSize, int pageNumber)
+        {
+            return Mapper.Map<List<OrderViewModel>>(TheUnitOfWork.Order.GetPageRecords(pageSize, pageNumber));
+        }
 
     }
 }

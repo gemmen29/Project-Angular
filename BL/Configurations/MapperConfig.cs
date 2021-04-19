@@ -20,7 +20,8 @@ namespace BL.Configurations
                 cfg =>
                 {
                     cfg.CreateMap<Order, OrderViewModel>().ReverseMap();
-                    cfg.CreateMap<OrderProduct, OrderProductViewModel>().ReverseMap();
+                    cfg.CreateMap<OrderProduct, OrderProductViewModel>().ForMember(vm => vm.productName, m => m.MapFrom(u=>u.Product.Name)).ReverseMap();
+                                              
                     cfg.CreateMap<IdentityRole, RoleViewModel>().ReverseMap();
                     cfg.CreateMap<IdentityRole, UserRolesViewModel>().ReverseMap();
                     cfg.CreateMap<Reviews, ReviewsViewModel>().ReverseMap();
@@ -30,6 +31,7 @@ namespace BL.Configurations
 
                     cfg.CreateMap<Category, CategoryViewModel>().ReverseMap();
                     cfg.CreateMap<Payment, PaymentViewModel>().ReverseMap();
+                    cfg.CreateMap<ProductDto, Product>().ReverseMap();
 
                     cfg.CreateMap<Cart, CartViewModel>().ReverseMap();
                     cfg.CreateMap<Wishlist, WishlistViewModel>().ReverseMap();

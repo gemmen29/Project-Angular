@@ -115,7 +115,26 @@ namespace Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Details(int id)
         {
+           
+            var orderProductViewModels = _orderProductAppService.GetAllOrderProduct().Where(op => op.orderID == id).ToList();
+            //foreach (var item in orderProductViewModels)
+            //{
+            //    item.productName = _productAppService.GetPoduct(item.ProductID).Name;
+            //}
+
             return Ok(_orderProductAppService.GetAllOrderProduct().Where(op => op.orderID == id).ToList());
+           //return Ok(orderProductViewModels);
+        }
+        [HttpGet("count")]
+        public IActionResult OrderCount()
+        {
+            return Ok(_orderAppService.CountEntity());
+        }
+        [HttpGet("{pageSize}/{pageNumber}")]
+        public IActionResult GetOrdersByPage(int pageSize, int pageNumber)
+        {
+            var list = _orderAppService.GetPageRecords(pageSize, pageNumber);
+            return Ok(_orderAppService.GetPageRecords(pageSize, pageNumber));
         }
     }
 }
