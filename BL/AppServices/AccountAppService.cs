@@ -196,7 +196,7 @@ namespace BL.AppServices
         }
         public IEnumerable<RegisterViewodel> GetPageRecords(int pageSize, int pageNumber)
         {
-            return Mapper.Map<List<RegisterViewodel>>(TheUnitOfWork.Account.GetPageRecords(pageSize, pageNumber));
+            return Mapper.Map<List<RegisterViewodel>>(TheUnitOfWork.Account.GetPageRecords(pageSize, pageNumber).Where(ac => ac.isDeleted == false));
         }
         #endregion
 

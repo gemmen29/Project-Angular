@@ -33,9 +33,15 @@ namespace Api.Controllers
             this._roleAppService = roleAppService;
         }
         [HttpGet]
-        public IActionResult getAll()
+        public IActionResult GetAll()
         {
             var res = _accountAppService.GetAllAccounts();
+            return Ok(res);
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetUserById(string id)
+        {
+            var res = _accountAppService.GetAccountById(id);
             return Ok(res);
         }
         [HttpPost("/RegisterAdmin")]
@@ -80,6 +86,18 @@ namespace Api.Controllers
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
 
         }
+
+        public async Task<IActionResult> Edit(RegisterViewodel registerViewodel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            //registerViewodel.PasswordHash = registerViewodel.ConfirmPassword = null;
+            registerViewodel.PasswordHash = null;
+            await _accountAppService.Update(registerViewodel);
+
+            return Ok(new Response { Status = "Success", Message = "User updated successfully!" });
+
+        }
         [HttpPost("/Login")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
@@ -93,13 +111,27 @@ namespace Api.Controllers
             return Unauthorized();
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(string id)
+        {
+            try
+            {
+                _accountAppService.DeleteAccount(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("count")]
         public IActionResult UsersCount()
         {
             return Ok(_accountAppService.CountEntity());
         }
         [HttpGet("{pageSize}/{pageNumber}")]
-        public IActionResult GetCategoriesByPage(int pageSize, int pageNumber)
+        public IActionResult GetUsersByPage(int pageSize, int pageNumber)
         {
             return Ok(_accountAppService.GetPageRecords(pageSize, pageNumber));
         }
