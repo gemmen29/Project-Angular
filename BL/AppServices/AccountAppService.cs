@@ -1,7 +1,7 @@
 ﻿using BL.Bases;
 using BL.Interfaces;
 using BL.StaticClasses;
-using BL.ViewModels;
+using BL.Dtos;
 using DAL;
 using DAL.Models;
 using Microsoft.AspNetCore.Identity;

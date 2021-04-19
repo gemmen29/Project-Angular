@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL.ViewModels
+namespace BL.Dtos
 {
     public class ProductViewModel
     {
@@ -25,24 +25,16 @@ namespace BL.ViewModels
         [MinLength(10)]
         public string Description { get; set; }
 
-        public string Color { get; set; }
-
-
-       
         [Range(5, int.MaxValue, ErrorMessage = "Discout Must be more than 5")]
         public double Discount { get; set; }
-
-
-        public string image { get; set; }
+        public string Image { get; set; }
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Quantity Must be more than 1")]
         public int Quantity { get; set; }
         [Required]
-        [Display(Name = "Category")]
-        [ForeignKey("Category")]
         public Nullable<int> CategoryId { get; set; }
-        public Category Category { get; set; }
-        public  List<Reviews> Reviews { get; set; } = new List<Reviews>();
+        [Required]
+        public Nullable<int> ColorId { get; set; }
     }
 }

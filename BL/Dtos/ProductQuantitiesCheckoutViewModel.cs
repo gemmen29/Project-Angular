@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL.ViewModels
+namespace BL.Dtos
 {
     //this view model will be used by signal r to notify admin after each checkout 
     //by each product and the quantity that demanded by customer

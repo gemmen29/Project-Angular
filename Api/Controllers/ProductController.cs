@@ -1,9 +1,5 @@
 ﻿using BL.AppServices;
-using BL.StaticClasses;
 using BL.Dtos;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,29 +10,28 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
-    public class CategoryController : ControllerBase
+    public class ProductController : Controller
     {
-        CategoryAppService _categoryAppService;
+        ProductAppService _productAppService;
 
-        public CategoryController(CategoryAppService categoryAppService)
+        public ProductController(ProductAppService productAppService)
         {
-            this._categoryAppService = categoryAppService;
+            this._productAppService = productAppService;
         }
 
         [HttpGet]
         public IActionResult GetAllCategories()
         {
-            return Ok(_categoryAppService.GetAllCateogries());
+            return Ok(_productAppService.GetAllProduct());
         }
         [HttpGet("{id}")]
-        public IActionResult GetCategoryById(int id)
+        public IActionResult GetProductById(int id)
         {
-            return Ok(_categoryAppService.GetCategory(id));
+            return Ok(_productAppService.GetPoduct(id));
         }
 
         [HttpPost]
-        public IActionResult Create(CategoryViewModel categoryViewModel)
+        public IActionResult Create(ProductViewModel productViewModel)
         {
 
             if (ModelState.IsValid == false)
@@ -45,11 +40,9 @@ namespace Api.Controllers
             }
             try
             {
-                _categoryAppService.SaveNewCategory(categoryViewModel);
+                _productAppService.SaveNewProduct(productViewModel);
                 
-                //string urlDetails = Url.Link("DefaultApi", new { id = categoryViewModel.ID });
-                //return Created(urlDetails, "Added Sucess");
-                return Created("CreateCategory" , categoryViewModel);
+                return Created("CreateProduct", productViewModel);
             }
             catch (Exception ex)
             {
@@ -59,7 +52,7 @@ namespace Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Edit(int id, CategoryViewModel categoryViewModel)
+        public IActionResult Edit(int id, ProductViewModel productViewModel)
         {
 
             if (ModelState.IsValid == false)
@@ -68,8 +61,8 @@ namespace Api.Controllers
             }
             try
             {
-                _categoryAppService.UpdateCategory(categoryViewModel);
-                return Ok(categoryViewModel);
+                _productAppService.UpdateProduct(productViewModel);
+                return Ok(productViewModel);
             }
             catch (Exception ex)
             {
@@ -82,7 +75,7 @@ namespace Api.Controllers
         {
             try
             {
-                _categoryAppService.DeleteCategory(id);
+                _productAppService.DeleteProduct(id);
                 return NoContent();
             }
             catch (Exception ex)
@@ -90,16 +83,16 @@ namespace Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-    
+
         [HttpGet("count")]
         public IActionResult CategoriesCount()
         {
-            return Ok(_categoryAppService.CountEntity());
+            return Ok(_productAppService.CountEntity());
         }
         [HttpGet("{pageSize}/{pageNumber}")]
         public IActionResult GetCategoriesByPage(int pageSize, int pageNumber)
         {
-            return Ok(_categoryAppService.GetPageRecords(pageSize, pageNumber));
+            return Ok(_productAppService.GetPageRecords(pageSize, pageNumber));
         }
     }
 }

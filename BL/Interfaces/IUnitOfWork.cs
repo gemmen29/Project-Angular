@@ -21,6 +21,7 @@ namespace BL.Interfaces
         AccountRepository Account { get; }
         RoleRepository Role { get; }
         ProductRepository Product { get; }
+        ColorRepository Color { get; }
 
         ProductCartRepository ProductCart { get; }
         ProductWishListRepository ProductWishList { get; }

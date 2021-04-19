@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BL.AppServices;
-using BL.ViewModels;
+using BL.Dtos;
 using Api.HelpClasses;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;

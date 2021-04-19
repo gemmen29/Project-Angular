@@ -1,5 +1,5 @@
 ﻿using BL.Bases;
-using BL.ViewModels;
+using BL.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;

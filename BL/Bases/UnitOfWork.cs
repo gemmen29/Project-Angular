@@ -179,5 +179,16 @@ namespace BL.Bases
                 return review;
             }
         }
+
+        public ColorRepository color;
+        public ColorRepository Color
+        {
+            get
+            {
+                if (color == null)
+                    color = new ColorRepository(EC_DbContext);
+                return color;
+            }
+        }
     }
 }

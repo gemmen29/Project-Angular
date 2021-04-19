@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BL.ViewModels;
+using BL.Dtos;
 using DAL.Models;
 using BL.Interfaces;
 

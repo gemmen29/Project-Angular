@@ -5,11 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="AppServices\" />
     <Folder Include="Bases\" />
     <Folder Include="Configurations\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Dtos\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
 

@@ -25,26 +25,26 @@ namespace DAL.Models
         [Required]
         [MinLength(10)]
         public string Description { get; set; }
-   
-        public string Color { get; set; }
-
 
         [Required]
         [Range(5, int.MaxValue, ErrorMessage = "Discout Must be more than 5")]
         public double Discount{ get; set; }
 
        
-        public string image { get; set; }
+        public string Image { get; set; }
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Quantity Must be more than 1")]
         public int Quantity { get; set; }
 
         [Required]
-        [Display(Name = "Category")]
         [ForeignKey("Category")]
         public Nullable<int> CategoryId { get; set; }
         public virtual Category Category { get; set; }
+        [Required]
+        [ForeignKey("Color")]
+        public Nullable<int> ColorId { get; set; }
+        public virtual Color Color { get; set; }
         public virtual List<ProductCart> Carts { get; set; } = new List<ProductCart>();
         public virtual List<ProductWishList> Wishlists { get; set; } = new List<ProductWishList>();
 
