@@ -73,5 +73,16 @@ namespace BL.AppServices
             return TheUnitOfWork.Color.CheckColorExists(color);
         }
         #endregion
+
+        #region pagination
+        public int CountEntity()
+        {
+            return TheUnitOfWork.Color.CountEntity();
+        }
+        public IEnumerable<ColorDTO> GetPageRecords(int pageSize, int pageNumber)
+        {
+            return Mapper.Map<List<ColorDTO>>(TheUnitOfWork.Color.GetPageRecords(pageSize, pageNumber));
+        }
+        #endregion
     }
 }

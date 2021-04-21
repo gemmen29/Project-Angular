@@ -20,7 +20,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllCategories()
+        public IActionResult GetAllColors()
         {
             return Ok(_colorAppService.GetAllColors());
         }
@@ -84,6 +84,17 @@ namespace Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("count")]
+        public IActionResult ColorsCount()
+        {
+            return Ok(_colorAppService.CountEntity());
+        }
+        [HttpGet("{pageSize}/{pageNumber}")]
+        public IActionResult GetColorsByPage(int pageSize, int pageNumber)
+        {
+            return Ok(_colorAppService.GetPageRecords(pageSize, pageNumber));
         }
 
     }
