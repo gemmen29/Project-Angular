@@ -19,12 +19,12 @@ namespace DAL.Models
         [ForeignKey("Product")]
         public int ProductID { get; set; }
      
-        public virtual Product Product { get; set; }
+        public Product Product { get; set; }
 
         [ForeignKey("Order")]
         public int orderID { get; set; }
        
-        public virtual Order Order { get; set; }
+        public Order Order { get; set; }
 
     }
 }

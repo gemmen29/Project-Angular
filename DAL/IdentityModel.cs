@@ -27,7 +27,7 @@ namespace DAL
         [Required]
         public bool isDeleted { get; set; }
 
-        public virtual List<Payment> Payments { get; set; }
+        public List<Payment> Payments { get; set; }
     }
     public class ApplicationUserStore : UserStore<ApplicationUserIdentity>
     {
@@ -88,18 +88,18 @@ namespace DAL
         {
 
         }
-        public virtual DbSet<Order> Orders { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Cart> Carts { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Wishlist> Wishlists { get; set; }
-        public virtual DbSet<Payment> Payments { get; set; }
-        public virtual DbSet<Reviews> Reviews { get; set; }
-        public virtual DbSet<Color> Colors { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public  DbSet<Category> Categories { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Wishlist> Wishlists { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Reviews> Reviews { get; set; }
+        public DbSet<Color> Colors { get; set; }
 
-        public virtual DbSet<ProductCart> ProductCarts { get; set; }
-            public virtual DbSet<ProductWishList> ProductWishLists { get; set; }
-            public virtual DbSet<OrderProduct> OrderProducts { get; set; }
+        public DbSet<ProductCart> ProductCarts { get; set; }
+        public DbSet<ProductWishList> ProductWishLists { get; set; }
+        public DbSet<OrderProduct> OrderProducts { get; set; }
 
         }
 

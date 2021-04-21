@@ -13,11 +13,11 @@ namespace DAL.Models
 
         [ForeignKey("product")]
         public int productId{ get; set; }
-        public virtual Product product { get; set; }
+        public Product product { get; set; }
 
 
         [ForeignKey("cart")]
-        public int CartID { get; set; }
-        public virtual Cart cart { get; set; }
+        public string CartID { get; set; }
+        public Cart cart { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace DAL.Models
 
         [ForeignKey("appUser")]
         public string ApplicationUserIdentity_Id { get; set; }
-        public virtual ApplicationUserIdentity appUser { get; set; }
-        public virtual List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
+        public ApplicationUserIdentity appUser { get; set; }
+        public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
     }
 }

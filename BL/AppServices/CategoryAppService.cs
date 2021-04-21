@@ -8,12 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace BL.AppServices
 {
    public class CategoryAppService:AppServiceBase
     {
-        public CategoryAppService(IUnitOfWork theUnitOfWork) : base(theUnitOfWork)
+        public CategoryAppService(IUnitOfWork theUnitOfWork, IMapper mapper) : base(theUnitOfWork, mapper)
         {
 
         }

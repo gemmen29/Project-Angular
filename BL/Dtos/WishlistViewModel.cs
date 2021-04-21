@@ -8,7 +8,6 @@ namespace BL.Dtos
 {
     public class WishlistViewModel
     {
-        public int ID { get; set; }
-        public string ApplicationUserIdentity_Id { get; set; }
+        public string ID { get; set; }
     }
 }

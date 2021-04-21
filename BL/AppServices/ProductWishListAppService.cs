@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 using DAL;
 using DAL.Models;
 using BL.Interfaces;
+using AutoMapper;
 
 namespace BL.AppServices
 {
     public class ProductWishListAppService: AppServiceBase
     {
-        public ProductWishListAppService(IUnitOfWork theUnitOfWork) : base(theUnitOfWork)
+        public ProductWishListAppService(IUnitOfWork theUnitOfWork, IMapper mapper) : base(theUnitOfWork, mapper)
         {
 
         }

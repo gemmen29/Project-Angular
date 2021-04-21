@@ -10,10 +10,10 @@ namespace DAL.Models
     [Table("Wishlist")]
     public class Wishlist
     {
-        public int ID { get; set; }
-        public virtual List<ProductWishList> Wishlists { get; set; } = new List<ProductWishList>();
         [ForeignKey("ApplicationUserIdentity")]
-        public string ApplicationUserIdentity_Id { get; set; }
-        public virtual ApplicationUserIdentity ApplicationUserIdentity { get; set; }
+        public string ID { get; set; }
+        public List<ProductWishList> Wishlists { get; set; } = new List<ProductWishList>();
+        
+        public ApplicationUserIdentity ApplicationUserIdentity { get; set; }
     }
 }

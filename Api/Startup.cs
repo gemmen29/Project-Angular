@@ -19,6 +19,10 @@ using static DAL.ApplicationUserIdentity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace Api
 {
@@ -65,7 +69,7 @@ namespace Api
             services.AddTransient<WishlistAppService>();
             services.AddTransient<ColorAppService>();
             services.AddHttpContextAccessor();//allow me to get user information such as id
-            
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddSwaggerGen();
             services.AddAuthentication(options =>
@@ -74,21 +78,27 @@ namespace Api
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-
-         // Adding Jwt Bearer  
-         .AddJwtBearer(options =>
-         {
-             options.SaveToken = true;
-             options.RequireHttpsMetadata = false;
-             options.TokenValidationParameters = new TokenValidationParameters()
+            // Adding Jwt Bearer  
+            .AddJwtBearer(options =>
              {
-                 ValidateIssuer = true,
-                 ValidateAudience = true,
-                 ValidAudience = Configuration["JWT:ValidAudience"],
-                 ValidIssuer = Configuration["JWT:ValidIssuer"],
-                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
-             };
-         });
+                 options.SaveToken = true;
+                 options.RequireHttpsMetadata = false;
+                 options.TokenValidationParameters = new TokenValidationParameters()
+                 {
+                     ValidateIssuer = true,
+                     ValidateAudience = true,
+                     ValidAudience = Configuration["JWT:ValidAudience"],
+                     ValidIssuer = Configuration["JWT:ValidIssuer"],
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
+                 };
+            });
+
+            services.Configure<FormOptions>(o => {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -119,7 +129,14 @@ namespace Api
                 .AllowAnyHeader()
                 .SetIsOriginAllowed(origin => true) // allow any origin
                 .AllowCredentials());
-                
+            // make uploaded images stored in the Resources folder 
+            //  make Resources folder it servable as well
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+                RequestPath = new PathString("/Resources")
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

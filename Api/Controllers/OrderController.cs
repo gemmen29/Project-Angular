@@ -51,7 +51,7 @@ namespace Api.Controllers
             //get cart id of current logged user
             var userID = "19";
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var cartID = _cartAppService.GetAllCarts().Where(c => c.ApplicationUserIdentity_Id == userID)
+            var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
                                                            .Select(c => c.ID).FirstOrDefault();
             //get product ids from this card
             var prodIds = _productCartAppService.GetAllProductCart().Where(pc => pc.cartId == cartID)

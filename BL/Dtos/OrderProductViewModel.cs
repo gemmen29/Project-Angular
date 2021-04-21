@@ -25,35 +25,5 @@ namespace BL.Dtos
        //public ProductDto productDto { get; set; }
        public string productName { get; set; }
     }
-    public class ProductDto
-    {
-        public int ID { get; set; }
-        [Required]
-        [MinLength(5)]
-        //[RegularExpression("[a-zA-Z]{5,}", ErrorMessage = "Name must be only characters and more that 5")]
-        public string Name { get; set; }
-
-
-        [Range(1, int.MaxValue, ErrorMessage = "Please enter valid price")]
-        public double Price { get; set; } //make it double instead of nullable
-
-        [Required]
-        [MinLength(10)]
-        public string Description { get; set; }
-
-        public string Color { get; set; }
-
-
-        [Required]
-        [Range(5, int.MaxValue, ErrorMessage = "Discout Must be more than 5")]
-        public double Discount { get; set; }
-
-
-        public string image { get; set; }
-
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Quantity Must be more than 1")]
-        public int Quantity { get; set; }
-    }
    
 }

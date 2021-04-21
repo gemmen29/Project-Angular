@@ -9,12 +9,13 @@ using BL.Dtos;
 using DAL;
 using Microsoft.AspNetCore.Identity;
 using BL.Interfaces;
+using AutoMapper;
 
 namespace BL.AppServices
 {
     public class RoleAppService : AppServiceBase
     {
-        public RoleAppService(IUnitOfWork theUnitOfWork) : base(theUnitOfWork)
+        public RoleAppService(IUnitOfWork theUnitOfWork, IMapper mapper) : base(theUnitOfWork, mapper)
         {
 
         }

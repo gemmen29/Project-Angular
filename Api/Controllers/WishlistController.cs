@@ -37,7 +37,7 @@ namespace Api.Controllers
            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ApplicationUserIdentity_Id == userID)
+            var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
                                                            .Select(w => w.ID).FirstOrDefault();
             var productIDs = _productWishListAppService.GetAllProductWishList().Where(w => w.wishlistId == wishListID).Select(wpr => wpr.productId);
             List<ProductViewModel> productViewModels = new List<ProductViewModel>();
@@ -56,7 +56,7 @@ namespace Api.Controllers
             //get wishlist of current logged user
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var userID = "d323a82b-0292-4844-aa74-009dbcff12d1";
-            var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ApplicationUserIdentity_Id == userID)
+            var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
                                                            .Select(w => w.ID).FirstOrDefault();
             var productWishListViewModel = new ProductWishListViewModel() { wishlistId = wishListID, productId = id };
             var isExistingProductWishListViewModel = _productWishListAppService.GetAllProductWishList()
@@ -76,7 +76,7 @@ namespace Api.Controllers
         public IActionResult DeleteFromWishList(int producID)
         {
             var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ApplicationUserIdentity_Id == userID)
+            var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
                                                            .Select(w => w.ID).FirstOrDefault();
             var productWishlistViewModel = new ProductWishListViewModel() { wishlistId = wishListID, productId = producID };
             var deletedProductWishList = _productWishListAppService.GetAllProductWishList()

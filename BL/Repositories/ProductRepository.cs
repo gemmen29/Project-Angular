@@ -21,9 +21,12 @@ namespace BL.Repositories
         }
         #region CRUB
 
-        public List<Product> GetAllProduct()
+        public IEnumerable<Product> GetAllProduct()
         {
-            return GetAll().Include(p=>p.Reviews).ToList();
+            return GetAll()
+                .Include(p=>p.Color)
+                .Include(p => p.Category)
+                .ToList();
         }
       
 
@@ -49,5 +52,18 @@ namespace BL.Repositories
             return GetFirstOrDefault(l => l.ID == id);
         }
         #endregion
+
+        public override IEnumerable<Product> GetPageRecords(int pageSize, int pageNumber)
+        {
+            pageSize = (pageSize <= 0) ? 10 : pageSize;
+            pageNumber = (pageNumber < 1) ? 0 : pageNumber - 1;
+
+            var products =  DbSet
+                .Skip(pageNumber * pageSize).Take(pageSize)
+                .Include(p => p.Color)
+                .Include(p => p.Category)
+                .ToList();
+            return products;
+        }
     }
 }

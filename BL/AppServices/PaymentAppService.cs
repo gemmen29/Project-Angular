@@ -15,7 +15,7 @@ namespace BL.AppServices
 {
     public class PaymentAppService : AppServiceBase
     {
-        public PaymentAppService(IUnitOfWork theUnitOfWork) : base(theUnitOfWork)
+        public PaymentAppService(IUnitOfWork theUnitOfWork, IMapper mapper) : base(theUnitOfWork, mapper)
         {
 
         }

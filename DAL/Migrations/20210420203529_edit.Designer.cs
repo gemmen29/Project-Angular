@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20210419201945_init3")]
-    partial class init3
+    [Migration("20210420203529_edit")]
+    partial class edit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,17 +109,10 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Models.Cart", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ApplicationUserIdentity_Id")
+                    b.Property<string>("ID")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("ApplicationUserIdentity_Id");
 
                     b.ToTable("Cart");
                 });
@@ -294,8 +287,8 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CartID")
-                        .HasColumnType("int");
+                    b.Property<string>("CartID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("productId")
                         .HasColumnType("int");
@@ -316,8 +309,8 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("WishlistID")
-                        .HasColumnType("int");
+                    b.Property<string>("WishlistID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("productId")
                         .HasColumnType("int");
@@ -361,17 +354,10 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Models.Wishlist", b =>
                 {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ApplicationUserIdentity_Id")
+                    b.Property<string>("ID")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("ApplicationUserIdentity_Id");
 
                     b.ToTable("Wishlist");
                 });
@@ -511,7 +497,9 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.ApplicationUserIdentity", "ApplicationUserIdentity")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserIdentity_Id");
+                        .HasForeignKey("ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ApplicationUserIdentity");
                 });
@@ -576,9 +564,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Cart", "cart")
                         .WithMany("Products")
-                        .HasForeignKey("CartID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CartID");
 
                     b.HasOne("DAL.Models.Product", "product")
                         .WithMany("Carts")
@@ -595,9 +581,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.Wishlist", "Wishlist")
                         .WithMany("Wishlists")
-                        .HasForeignKey("WishlistID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WishlistID");
 
                     b.HasOne("DAL.Models.Product", "product")
                         .WithMany("Wishlists")
@@ -631,7 +615,9 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.ApplicationUserIdentity", "ApplicationUserIdentity")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserIdentity_Id");
+                        .HasForeignKey("ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ApplicationUserIdentity");
                 });

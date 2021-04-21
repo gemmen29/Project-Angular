@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,9 @@ namespace DAL.Models
     [Table("Cart")]
     public class Cart
     {
-        public int ID { get; set; }
-        public virtual List<ProductCart> Products { get; set; } = new List<ProductCart>();
-        [ForeignKey("ApplicationUserIdentity")]
-        public string ApplicationUserIdentity_Id { get; set; }
-        public virtual ApplicationUserIdentity ApplicationUserIdentity { get; set; }
+        [ForeignKey("ApplicationUserIdentity"), Key]
+        public string ID { get; set; }
+        public List<ProductCart> Products { get; set; } = new List<ProductCart>();
+        public ApplicationUserIdentity ApplicationUserIdentity { get; set; }
     }
 }

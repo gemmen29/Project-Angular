@@ -1,4 +1,5 @@
-﻿using BL.Bases;
+﻿using AutoMapper;
+using BL.Bases;
 using BL.Dtos;
 using BL.Interfaces;
 using DAL.Models;
@@ -12,7 +13,7 @@ namespace BL.AppServices
 {
     public class ColorAppService : AppServiceBase
     {
-        public ColorAppService(IUnitOfWork theUnitOfWork) : base(theUnitOfWork)
+        public ColorAppService(IUnitOfWork theUnitOfWork, IMapper mapper) : base(theUnitOfWork, mapper)
         {
 
         }

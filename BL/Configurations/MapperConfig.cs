@@ -11,42 +11,38 @@ using System.Threading.Tasks;
 
 namespace BL.Configurations
 {
-    public static class MapperConfig
+    public class AutoMapperProfile : Profile
     {
-        public static IMapper Mapper { get; set; }
-        static MapperConfig()
+        public AutoMapperProfile()
         {
-            var config = new MapperConfiguration(
-                cfg =>
-                {
-                    cfg.CreateMap<Order, OrderViewModel>().ReverseMap();
-                    cfg.CreateMap<OrderProduct, OrderProductViewModel>().ForMember(vm => vm.productName, m => m.MapFrom(u=>u.Product.Name)).ReverseMap();
-                                              
-                    cfg.CreateMap<IdentityRole, RoleViewModel>().ReverseMap();
-                    cfg.CreateMap<IdentityRole, UserRolesViewModel>().ReverseMap();
-                    cfg.CreateMap<Reviews, ReviewsViewModel>().ReverseMap();
+            CreateMap<Product, ProductViewModel>()
+                .ForMember(vm => vm.ColorName, vm => vm.MapFrom(m => m.Color.Name))
+                .ForMember(vm => vm.CategoryName, vm => vm.MapFrom(m => m.Category.Name))
+                .ReverseMap()
+                .ForMember(m => m.Color, m => m.Ignore())
+                .ForMember(m => m.Category, m => m.Ignore());
 
-                    cfg.CreateMap<ProductCart, ProductCartViewModel>().ReverseMap();
-                    cfg.CreateMap<ProductWishList, ProductWishListViewModel>().ReverseMap();
+           CreateMap<Order, OrderViewModel>().ReverseMap();
+           CreateMap<OrderProduct, OrderProductViewModel>().ForMember(vm => vm.productName, m => m.MapFrom(u => u.Product.Name)).ReverseMap();
 
-                    cfg.CreateMap<Category, CategoryViewModel>().ReverseMap();
-                    cfg.CreateMap<Payment, PaymentViewModel>().ReverseMap();
-                    cfg.CreateMap<ProductDto, Product>().ReverseMap();
+           CreateMap<IdentityRole, RoleViewModel>().ReverseMap();
+           CreateMap<IdentityRole, UserRolesViewModel>().ReverseMap();
+           CreateMap<Reviews, ReviewsViewModel>().ReverseMap();
 
-                    cfg.CreateMap<Cart, CartViewModel>().ReverseMap();
-                    cfg.CreateMap<Wishlist, WishlistViewModel>().ReverseMap();
+           CreateMap<ProductCart, ProductCartViewModel>().ReverseMap();
+           CreateMap<ProductWishList, ProductWishListViewModel>().ReverseMap();
 
-                    cfg.CreateMap<Product, ProductViewModel>().ReverseMap();
-                    cfg.CreateMap<ProductViewModel, ProductViewModel>().ReverseMap();
+           CreateMap<Category, CategoryViewModel>().ReverseMap();
+           CreateMap<Payment, PaymentViewModel>().ReverseMap();
 
-                    cfg.CreateMap<ApplicationUserIdentity, LoginViewModel>().ReverseMap();
-                    cfg.CreateMap<ApplicationUserIdentity, RegisterViewodel>().ReverseMap();
 
-                    cfg.CreateMap<Color, ColorDTO>().ReverseMap();
-                    //cfg.CreateMap<IdentityResult, ResultStatue>().ReverseMap();
+           CreateMap<Cart, CartViewModel>().ReverseMap();
+           CreateMap<Wishlist, WishlistViewModel>().ReverseMap();
 
-                });
-            Mapper = config.CreateMapper();
+           CreateMap<ApplicationUserIdentity, LoginViewModel>().ReverseMap();
+           CreateMap<ApplicationUserIdentity, RegisterViewodel>().ReverseMap();
+
+           CreateMap<Color, ColorDTO>().ReverseMap();
         }
     }
 }

@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace BL.AppServices
 {
     public class CartAppService : AppServiceBase
     {
-        public CartAppService(IUnitOfWork theUnitOfWork) : base(theUnitOfWork)
+        public CartAppService(IUnitOfWork theUnitOfWork, IMapper mapper) : base(theUnitOfWork, mapper)
         {
 
         }
@@ -47,7 +48,7 @@ namespace BL.AppServices
         public bool CreateUserCart(string userId)
         {
             bool result = false;
-            Cart userCart = new Cart() { ApplicationUserIdentity_Id = userId };
+            Cart userCart = new Cart() { ID = userId };
             if (TheUnitOfWork.Cart.Insert(userCart))
             {
                 result = TheUnitOfWork.Commit() > new int();

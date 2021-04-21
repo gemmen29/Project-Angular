@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using BL.Dtos;
 using DAL.Models;
 using BL.Interfaces;
+using AutoMapper;
 
 namespace BL.AppServices
 {
      public class ProductCartAppService: AppServiceBase
     {
-        public ProductCartAppService(IUnitOfWork theUnitOfWork) : base(theUnitOfWork)
+        public ProductCartAppService(IUnitOfWork theUnitOfWork, IMapper mapper) : base(theUnitOfWork, mapper)
         {
 
         }

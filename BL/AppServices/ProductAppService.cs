@@ -7,14 +7,14 @@ using BL.Bases;
 using BL.Interfaces;
 using BL.Dtos;
 using DAL.Models;
+using AutoMapper;
 
 namespace BL.AppServices
 {
     public class ProductAppService: AppServiceBase
     {
-        public ProductAppService(IUnitOfWork theUnitOfWork) : base(theUnitOfWork)
+        public ProductAppService(IUnitOfWork theUnitOfWork, IMapper mapper) : base(theUnitOfWork, mapper)
         {
-
         }
         public List<ProductViewModel> GetAllProduct()
         {
@@ -49,6 +49,8 @@ namespace BL.AppServices
                 throw new ArgumentNullException();
             bool result = false;
             var product = Mapper.Map<Product>(productViewModel);
+            //product.Category = null;
+            //product.Color = null;
             if (TheUnitOfWork.Product.Insert(product))
             {
                 result = TheUnitOfWork.Commit() > new int();
@@ -77,6 +79,7 @@ namespace BL.AppServices
             TheUnitOfWork.Commit();
             return true;
         }
+
         public List<ProductViewModel> SearchFor(string productToSearch)
         {
             return GetAllProductWhere(productToSearch);
@@ -105,7 +108,8 @@ namespace BL.AppServices
         }
         public IEnumerable<ProductViewModel> GetPageRecords(int pageSize, int pageNumber)
         {
-            return Mapper.Map<List<ProductViewModel>>(TheUnitOfWork.Product.GetPageRecords(pageSize, pageNumber));
+            var products = Mapper.Map<List<ProductViewModel>>(TheUnitOfWork.Product.GetPageRecords(pageSize, pageNumber));
+            return products;
         }
         #endregion
 

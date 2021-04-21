@@ -1,5 +1,6 @@
 ﻿using BL.AppServices;
 using BL.Dtos;
+using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -85,14 +86,17 @@ namespace Api.Controllers
         }
 
         [HttpGet("count")]
-        public IActionResult CategoriesCount()
+        public IActionResult ProductsCount()
         {
             return Ok(_productAppService.CountEntity());
         }
         [HttpGet("{pageSize}/{pageNumber}")]
-        public IActionResult GetCategoriesByPage(int pageSize, int pageNumber)
+        public IActionResult GetProductsByPage(int pageSize, int pageNumber)
         {
             return Ok(_productAppService.GetPageRecords(pageSize, pageNumber));
         }
+
+     
+
     }
 }

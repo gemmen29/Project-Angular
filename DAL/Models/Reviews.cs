@@ -19,10 +19,10 @@ namespace DAL.Models
 
         [ForeignKey("product")]
         public int productID { get; set; }
-        public virtual Product product { get; set; }
+        public Product product { get; set; }
 
         [ForeignKey("user")]
         public string userID { get; set; }
-        public virtual ApplicationUserIdentity user { get; set; }
+        public ApplicationUserIdentity user { get; set; }
     }
 }

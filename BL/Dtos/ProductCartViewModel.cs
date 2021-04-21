@@ -10,6 +10,6 @@ namespace BL.Dtos
     {
         public int ID { get; set; }
         public int productId { get; set; }
-        public int cartId { get; set; }
+        public string cartId { get; set; }
     }
 }

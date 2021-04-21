@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.Migrations
 {
-    public partial class init : Migration
+    public partial class edit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -189,19 +189,17 @@ namespace DAL.Migrations
                 name: "Cart",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ApplicationUserIdentity_Id = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    ID = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cart", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Cart_AspNetUsers_ApplicationUserIdentity_Id",
-                        column: x => x.ApplicationUserIdentity_Id,
+                        name: "FK_Cart_AspNetUsers_ID",
+                        column: x => x.ID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -252,19 +250,17 @@ namespace DAL.Migrations
                 name: "Wishlist",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ApplicationUserIdentity_Id = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    ID = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Wishlist", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Wishlist_AspNetUsers_ApplicationUserIdentity_Id",
-                        column: x => x.ApplicationUserIdentity_Id,
+                        name: "FK_Wishlist_AspNetUsers_ID",
+                        column: x => x.ID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -280,7 +276,7 @@ namespace DAL.Migrations
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    ColorId = table.Column<int>(type: "int", nullable: true)
+                    ColorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -296,7 +292,7 @@ namespace DAL.Migrations
                         column: x => x.ColorId,
                         principalTable: "Color",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -336,7 +332,7 @@ namespace DAL.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     productId = table.Column<int>(type: "int", nullable: false),
-                    CartID = table.Column<int>(type: "int", nullable: false)
+                    CartID = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -346,7 +342,7 @@ namespace DAL.Migrations
                         column: x => x.CartID,
                         principalTable: "Cart",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ProductCarts_Product_productId",
                         column: x => x.productId,
@@ -362,7 +358,7 @@ namespace DAL.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     productId = table.Column<int>(type: "int", nullable: false),
-                    WishlistID = table.Column<int>(type: "int", nullable: false)
+                    WishlistID = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -378,7 +374,7 @@ namespace DAL.Migrations
                         column: x => x.WishlistID,
                         principalTable: "Wishlist",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -449,11 +445,6 @@ namespace DAL.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cart_ApplicationUserIdentity_Id",
-                table: "Cart",
-                column: "ApplicationUserIdentity_Id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Order_ApplicationUserIdentity_Id",
                 table: "Order",
                 column: "ApplicationUserIdentity_Id");
@@ -512,11 +503,6 @@ namespace DAL.Migrations
                 name: "IX_Review_userID",
                 table: "Review",
                 column: "userID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Wishlist_ApplicationUserIdentity_Id",
-                table: "Wishlist",
-                column: "ApplicationUserIdentity_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

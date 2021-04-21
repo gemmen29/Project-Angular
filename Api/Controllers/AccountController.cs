@@ -86,8 +86,8 @@ namespace Api.Controllers
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
 
         }
-
-        public async Task<IActionResult> Edit(RegisterViewodel registerViewodel)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit(string id,RegisterViewodel registerViewodel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using BL.Dtos;
 using DAL.Models;
 using BL.Interfaces;
+using AutoMapper;
 
 namespace BL.AppServices
 {
     public class ReviewsAppService: AppServiceBase
     {
-        public ReviewsAppService(IUnitOfWork theUnitOfWork) : base(theUnitOfWork)
+        public ReviewsAppService(IUnitOfWork theUnitOfWork, IMapper mapper) : base(theUnitOfWork, mapper)
         {
 
         }

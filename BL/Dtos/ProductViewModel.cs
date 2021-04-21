@@ -29,12 +29,11 @@ namespace BL.Dtos
         public double Discount { get; set; }
         public string Image { get; set; }
 
-        [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Quantity Must be more than 1")]
         public int Quantity { get; set; }
-        [Required]
-        public Nullable<int> CategoryId { get; set; }
-        [Required]
-        public Nullable<int> ColorId { get; set; }
+        public int CategoryId { get; set; }
+        public int ColorId { get; set; }
+        public string ColorName { get; set; }
+        public string CategoryName { get; set; }
     }
 }

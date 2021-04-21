@@ -14,6 +14,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace BL.AppServices
 {
@@ -24,7 +25,7 @@ namespace BL.AppServices
         WishlistAppService _wishlistAppService;
 
         public AccountAppService(IUnitOfWork theUnitOfWork,IConfiguration configuration,
-            CartAppService cartAppService, WishlistAppService wishlistAppService) : base(theUnitOfWork)
+            CartAppService cartAppService, WishlistAppService wishlistAppService, IMapper mapper) : base(theUnitOfWork, mapper)
         {
             this._configuration = configuration;
             this._cartAppService = cartAppService;

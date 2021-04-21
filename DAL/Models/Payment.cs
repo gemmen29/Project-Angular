@@ -32,6 +32,6 @@ namespace DAL.Models
 
         [ForeignKey("ApplicationUserIdentity")]
         public string ApplicationUserIdentity_Id { get; set; }
-        public virtual ApplicationUserIdentity ApplicationUserIdentity { get; set; }
+        public ApplicationUserIdentity ApplicationUserIdentity { get; set; }
     }
 }

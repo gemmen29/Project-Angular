@@ -40,16 +40,16 @@ namespace DAL.Models
      
         [ForeignKey("Category")]
         public  int CategoryId { get; set; }
-        public virtual Category Category { get; set; }
+        public Category Category { get; set; }
     
         [ForeignKey("Color")]
         public int ColorId { get; set; }
-        public virtual Color Color { get; set; }
-        public virtual List<ProductCart> Carts { get; set; } = new List<ProductCart>();
-        public virtual List<ProductWishList> Wishlists { get; set; } = new List<ProductWishList>();
+        public Color Color { get; set; }
+        public List<ProductCart> Carts { get; set; } = new List<ProductCart>();
+        public List<ProductWishList> Wishlists { get; set; } = new List<ProductWishList>();
 
-        public virtual List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
-        public virtual List<Reviews> Reviews { get; set; } = new List<Reviews>();
+        public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
+        public List<Reviews> Reviews { get; set; } = new List<Reviews>();
 
 
     }

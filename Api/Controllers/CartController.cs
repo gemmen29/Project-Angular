@@ -40,7 +40,7 @@ namespace Api.Controllers
             //firs get cart id of logged user
             var userID = "19";
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var cartID = _cartAppService.GetAllCarts().Where(c => c.ApplicationUserIdentity_Id == userID)
+            var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
                                                            .Select(c => c.ID).FirstOrDefault();
             var productIDs = _productCartAppService.GetAllProductCart().Where(pc => pc.cartId == cartID).Select(prc => prc.productId);
             List<ProductViewModel> productViewModels = new List<ProductViewModel>();
@@ -64,7 +64,7 @@ namespace Api.Controllers
             //get cart of current logged user
             var userID = "19";
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var cartID = _cartAppService.GetAllCarts().Where(c => c.ApplicationUserIdentity_Id == userID)
+            var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
                                                            .Select(c => c.ID).FirstOrDefault();
             var productCartViewModel = new ProductCartViewModel() { cartId = cartID, productId = id };
             var isExistingProductCartViewModel = _productCartAppService.GetAllProductCart()
@@ -84,7 +84,7 @@ namespace Api.Controllers
         {
             var userID = "19";
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var cartID = _cartAppService.GetAllCarts().Where(c => c.ApplicationUserIdentity_Id == userID)
+            var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
                                                            .Select(c => c.ID).FirstOrDefault();
             var productCartViewModel = new ProductCartViewModel() { cartId = cartID, productId = id };
             var deletedProductCart = _productCartAppService.GetAllProductCart()

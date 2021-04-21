@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace BL.AppServices
 {
     public class WishlistAppService : AppServiceBase
     {
-        public WishlistAppService(IUnitOfWork theUnitOfWork) : base(theUnitOfWork)
+        public WishlistAppService(IUnitOfWork theUnitOfWork, IMapper mapper) : base(theUnitOfWork, mapper)
         {
 
         }
@@ -47,7 +48,7 @@ namespace BL.AppServices
         public bool CreateUserWishlist(string userId)
         {
             bool result = false;
-            Wishlist userWishlist = new Wishlist() { ApplicationUserIdentity_Id = userId };
+            Wishlist userWishlist = new Wishlist() { ID = userId };
             if (TheUnitOfWork.Wishlist.Insert(userWishlist))
             {
                 result = TheUnitOfWork.Commit() > new int();
