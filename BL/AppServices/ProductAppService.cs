@@ -16,11 +16,17 @@ namespace BL.AppServices
         public ProductAppService(IUnitOfWork theUnitOfWork, IMapper mapper) : base(theUnitOfWork, mapper)
         {
         }
-        public List<ProductViewModel> GetAllProduct()
+        public IEnumerable<ProductViewModel> GetAllProduct()
         {
-            var allProducts = TheUnitOfWork.Product.GetAllProduct();
+            IEnumerable<Product> allProducts = TheUnitOfWork.Product.GetAllProduct();
+            return Mapper.Map<IEnumerable<ProductViewModel>>(allProducts);
+        }
+        public IEnumerable<ProductViewModel> GetNewArrivalsProduct(int numberOfProducts = 0)
+        {
+            IEnumerable<Product> allProducts = 
+                TheUnitOfWork.Product.GetNewArrivalsProduct(numberOfProducts);
 
-            return Mapper.Map<List<ProductViewModel>>(allProducts);
+            return Mapper.Map<IEnumerable<ProductViewModel>>(allProducts);
         }
         public List<ProductViewModel> GetAllProductWhere(int categoryID)
         {
@@ -80,7 +86,7 @@ namespace BL.AppServices
             return true;
         }
 
-        public List<ProductViewModel> SearchFor(string productToSearch)
+        public IEnumerable<ProductViewModel> SearchFor(string productToSearch)
         {
             return GetAllProductWhere(productToSearch);
        

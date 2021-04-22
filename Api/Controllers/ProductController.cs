@@ -21,7 +21,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllCategories()
+        public IActionResult GetAllProducts()
         {
             return Ok(_productAppService.GetAllProduct());
         }
@@ -30,7 +30,11 @@ namespace Api.Controllers
         {
             return Ok(_productAppService.GetPoduct(id));
         }
-
+        [HttpGet("newArrivals/{numOfProducts}")]
+        public IActionResult GetNewArrivalsProducts(int numOfProducts)
+        {
+            return Ok(_productAppService.GetNewArrivalsProduct(numOfProducts));
+        }
         [HttpPost]
         public IActionResult Create(ProductViewModel productViewModel)
         {

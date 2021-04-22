@@ -28,7 +28,18 @@ namespace BL.Repositories
                 .Include(p => p.Category)
                 .ToList();
         }
-      
+        public IEnumerable<Product> GetNewArrivalsProduct(int numberOfProducts = 0)
+        {
+            IEnumerable<Product> newArivailsProducts;
+            if (numberOfProducts <= 0)
+                newArivailsProducts = DbSet.OrderByDescending(p => p.ID);
+            else
+                newArivailsProducts = DbSet.OrderByDescending(p => p.ID).Take(numberOfProducts);
+
+            return newArivailsProducts;
+        }
+
+
 
         public bool InsertProduct(Product product)
         {
