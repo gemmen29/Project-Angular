@@ -60,7 +60,11 @@ namespace BL.Repositories
         }
         public Product GetProductById(int id)
         {
-            return GetFirstOrDefault(l => l.ID == id);
+            var product = DbSet
+                .Include(p => p.Color)
+                .Include(p => p.Category)
+                .FirstOrDefault(p => p.ID == id);
+            return product;
         }
         #endregion
 
