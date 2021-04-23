@@ -28,8 +28,8 @@ namespace Api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetProductById(int id)
         {
-            var res = _productAppService.GetPoduct(id);
-            return Ok(_productAppService.GetPoduct(id));
+            var res = _productAppService.GetProduct(id);
+            return Ok(_productAppService.GetProduct(id));
         }
         [HttpGet("newArrivals/{numOfProducts}")]
         public IActionResult GetNewArrivalsProducts(int numOfProducts)
