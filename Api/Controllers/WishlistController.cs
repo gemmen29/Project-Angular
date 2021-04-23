@@ -37,13 +37,13 @@ namespace Api.Controllers
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
             //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
-                                                           .Select(w => w.ID).FirstOrDefault();
-            var productIDs = _productWishListAppService.GetAllProductWishList().Where(w => w.wishlistId == wishListID).Select(wpr => wpr.productId);
+            //var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
+            //                                               .Select(w => w.ID).FirstOrDefault();
+            var productIDs = _productWishListAppService.GetAllProductWishList().Where(w => w.wishlistId == userID).Select(wpr => wpr.productId);
             List<ProductViewModel> productViewModels = new List<ProductViewModel>();
             foreach (var proID in productIDs)
             {
-                var product = _productAppService.GetPoduct(proID);
+                var product = _productAppService.GetProduct(proID);
                 productViewModels.Add(product);
             }
             return Ok(productViewModels);
@@ -56,37 +56,42 @@ namespace Api.Controllers
             var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
             //get wishlist of current logged user
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
-                                                           .Select(w => w.ID).FirstOrDefault();
-            var productWishListViewModel = new ProductWishListViewModel() { wishlistId = wishListID, productId = productID };
-            var isExistingProductWishListViewModel = _productWishListAppService.GetAllProductWishList()
-                                                .FirstOrDefault(w => w.wishlistId == productWishListViewModel.wishlistId && w.productId == productWishListViewModel.productId);
-
-            if (isExistingProductWishListViewModel == null)
+            //var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
+            //                                               .Select(w => w.ID).FirstOrDefault();
+            var productWishListViewModel = new ProductWishListViewModel() { wishlistId = userID, productId = productID };
+            //var isExistingProductWishListViewModel = _productWishListAppService.GetAllProductWishList()
+            //                                    .FirstOrDefault(w => w.wishlistId == productWishListViewModel.wishlistId && w.productId == productWishListViewModel.productId);
+            var isExistingProductWishListViewModel = _productWishListAppService.CheckIfProductExistsInWishlist(userID, productID);
+            if (isExistingProductWishListViewModel == false)
             {
                 _productWishListAppService.SaveNewProductWishlist(productWishListViewModel);
                 return Ok();
             }
-                //if product already exist
-                return BadRequest("this product already exist in wishList");
-                //this product exist in the wishlist you can not add it again
+            return BadRequest("this product already exist in wishList");
         }
         //[HttpDelete]
         [HttpDelete("{productID}")]
         public IActionResult DeleteFromWishList(int productID)
         {
             var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
+            var isExistingProductWishListViewModel = _productWishListAppService.CheckIfProductExistsInWishlist(userID, productID);
+            if (isExistingProductWishListViewModel == true)
+            {
+                _productWishListAppService.DeleteProductWishList(_productWishListAppService.GetProductWishlistID(userID,productID));
+                return Ok();
+            }
+            return BadRequest("this product doesn't exist in wishList");
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
-                                                           .Select(w => w.ID).FirstOrDefault();
-            var productWishlistViewModel = new ProductWishListViewModel() { wishlistId = wishListID, productId = productID };
-            var deletedProductWishList = _productWishListAppService.GetAllProductWishList()
-                                                 .FirstOrDefault(w => w.wishlistId == productWishlistViewModel.wishlistId && w.productId == productWishlistViewModel.productId);
+            //var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
+            //                                               .Select(w => w.ID).FirstOrDefault();
+            //var productWishlistViewModel = new ProductWishListViewModel() { wishlistId = userID, productId = productID };
+            //var deletedProductWishList = _productWishListAppService.GetAllProductWishList()
+            //                                     .FirstOrDefault(w => w.wishlistId == productWishlistViewModel.wishlistId && w.productId == productWishlistViewModel.productId);
 
-            var isDeleted = _productWishListAppService.DeleteProductWishList(deletedProductWishList.ID);
-            if (isDeleted)
-                return Content("Deleted succfully");
-            return Content("Error Occur In Deletion");
+            //var isDeleted = _productWishListAppService.DeleteProductWishList(deletedProductWishList.ID);
+            //if (isDeleted)
+            //    return Content("Deleted succfully");
+            //return Content("Error Occur In Deletion");
 
 
         }

@@ -51,6 +51,18 @@ namespace BL.AppServices
             return result;
         }
 
-       
+        public bool CheckIfProductExistsInWishlist(string wishlistID, int productID)
+        {
+            var isExistProductInWishlist = TheUnitOfWork.ProductWishList
+                .GetFirstOrDefault(c => c.WishlistID == wishlistID && c.productId == productID);
+            return isExistProductInWishlist == null ? false : true;
+        }
+
+        public int GetProductWishlistID(string wishlistID, int productID)
+        {
+            return TheUnitOfWork.ProductWishList
+                .GetFirstOrDefault(c => c.WishlistID == wishlistID && c.productId == productID).ID;
+        }
+
     }
 }

@@ -40,13 +40,13 @@ namespace Api.Controllers
             //firs get cart id of logged user
             var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
-                                                           .Select(c => c.ID).FirstOrDefault();
-            var productIDs = _productCartAppService.GetAllProductCart().Where(pc => pc.cartId == cartID).Select(prc => prc.productId);
+            //var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
+            //                                               .Select(c => c.ID).FirstOrDefault();
+            var productIDs = _productCartAppService.GetAllProductCart().Where(pc => pc.cartId == userID).Select(prc => prc.productId);
             List<ProductViewModel> productViewModels = new List<ProductViewModel>();
             foreach (var proID in productIDs)
             {
-                var product = _productAppService.GetPoduct(proID);
+                var product = _productAppService.GetProduct(proID);
                 productViewModels.Add(product);
             }
             //CartAndPaymentInfoViewModel cartDetailsViewModel = new CartAndPaymentInfoViewModel
@@ -64,13 +64,13 @@ namespace Api.Controllers
             //get cart of current logged user
             var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
-                                                           .Select(c => c.ID).FirstOrDefault();
-            var productCartViewModel = new ProductCartViewModel() { cartId = cartID, productId = productID };
-            var isExistingProductCartViewModel = _productCartAppService.GetAllProductCart()
-                                                 .FirstOrDefault(c => c.cartId == productCartViewModel.cartId && c.productId == productCartViewModel.productId);
-
-            if (isExistingProductCartViewModel == null)
+            //var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
+            //                                               .Select(c => c.ID).FirstOrDefault();
+            var productCartViewModel = new ProductCartViewModel() { cartId = userID, productId = productID };
+            //var isExistingProductCartViewModel = _productCartAppService.GetAllProductCart()
+            //                                     .FirstOrDefault(c => c.cartId == productCartViewModel.cartId && c.productId == productCartViewModel.productId);
+            var isExistingProductCartViewModel = _productCartAppService.CheckIfProductExistsInCart(userID, productID);
+            if (isExistingProductCartViewModel == false)
             {
                 _productCartAppService.SaveNewProductCart(productCartViewModel);
                 return Ok();
@@ -84,18 +84,24 @@ namespace Api.Controllers
         {
             var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
-                                                           .Select(c => c.ID).FirstOrDefault();
-            var productCartViewModel = new ProductCartViewModel() { cartId = cartID, productId = productID };
-            var deletedProductCart = _productCartAppService.GetAllProductCart()
-                                                 .FirstOrDefault(c => c.cartId == productCartViewModel.cartId && c.productId == productCartViewModel.productId);
-            if(deletedProductCart == null)
-                return Content("Product Not Found");
+            //var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
+            //                                               .Select(c => c.ID).FirstOrDefault();
+            //var productCartViewModel = new ProductCartViewModel() { cartId = userID, productId = productID };
+            //var deletedProductCart = _productCartAppService.GetAllProductCart()
+            //                                     .FirstOrDefault(c => c.cartId == productCartViewModel.cartId && c.productId == productCartViewModel.productId);
+            //if(deletedProductCart == null)
+            //    return Content("Product Not Found");
 
-            var isDeleted = _productCartAppService.DeleteProductCart(deletedProductCart.ID);
-            if (isDeleted)
-                return Content("Deleted succfully");
-            return Content("Error Occur In Deletion");
+            //var isDeleted = _productCartAppService.DeleteProductCart(deletedProductCart.ID);
+            //if (isDeleted)
+            //    return Content("Deleted succfully");
+            var isExistingProductCartViewModel = _productCartAppService.CheckIfProductExistsInCart(userID, productID);
+            if (isExistingProductCartViewModel == true)
+            {
+                _productCartAppService.DeleteProductCart(_productCartAppService.GetProductCartID(userID,productID));
+                return Ok();
+            }
+            return BadRequest("This product doesn't exist in cart");
         }
     }
 }

@@ -42,7 +42,7 @@ namespace BL.AppServices
 
             return Mapper.Map<List<ProductViewModel>>(searchRes);
         }
-        public ProductViewModel GetPoduct(int id)
+        public ProductViewModel GetProduct(int id)
         {
             return Mapper.Map<ProductViewModel>(TheUnitOfWork.Product.GetProductById(id));
         }

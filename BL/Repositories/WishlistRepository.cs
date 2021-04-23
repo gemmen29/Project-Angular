@@ -43,7 +43,7 @@ namespace BL.Repositories
         {
             return GetAny(l => l.ID == wishlist.ID);
         }
-        public Wishlist GetCartById(string id)
+        public Wishlist GetWishlistById(string id)
         {
             return GetFirstOrDefault(l => l.ID == id);
         }
