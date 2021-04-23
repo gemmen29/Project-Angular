@@ -36,6 +36,11 @@ namespace Api.Controllers
         {
             return Ok(_productAppService.GetNewArrivalsProduct(numOfProducts));
         }
+        [HttpGet("category/{catId}/{pageSize}/{pageNumber}")]
+        public IActionResult GetProductsByCategoryIdPagination(int catId, int pageSize, int pageNumber)
+        {
+            return Ok(_productAppService.GetProductsByCategoryIdPagination(catId, pageSize, pageNumber));
+        }
         [HttpPost]
         public IActionResult Create(ProductViewModel productViewModel)
         {
