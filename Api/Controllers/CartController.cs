@@ -38,7 +38,7 @@ namespace Api.Controllers
 
             //get all products in specfic cart
             //firs get cart id of logged user
-            var userID = "19";
+            var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
                                                            .Select(c => c.ID).FirstOrDefault();
@@ -49,24 +49,24 @@ namespace Api.Controllers
                 var product = _productAppService.GetPoduct(proID);
                 productViewModels.Add(product);
             }
-            CartAndPaymentInfoViewModel cardDetailsViewModel = new CartAndPaymentInfoViewModel
-            {
-                paymentViewModels = _paymentAppService.GetPaymentsOfUser(userID),
-                productViewModels = productViewModels
+            //CartAndPaymentInfoViewModel cartDetailsViewModel = new CartAndPaymentInfoViewModel
+            //{
+            //    paymentViewModels = _paymentAppService.GetPaymentsOfUser(userID),
+            //    productViewModels = productViewModels
 
-            };
-            return Ok(cardDetailsViewModel);
+            //};
+            return Ok(productViewModels);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult AddProductToCart(int id)
+        [HttpPost("{productID}")]
+        public IActionResult AddProductToCart(int productID)
         {
             //get cart of current logged user
-            var userID = "19";
+            var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
                                                            .Select(c => c.ID).FirstOrDefault();
-            var productCartViewModel = new ProductCartViewModel() { cartId = cartID, productId = id };
+            var productCartViewModel = new ProductCartViewModel() { cartId = cartID, productId = productID };
             var isExistingProductCartViewModel = _productCartAppService.GetAllProductCart()
                                                  .FirstOrDefault(c => c.cartId == productCartViewModel.cartId && c.productId == productCartViewModel.productId);
 
@@ -79,14 +79,14 @@ namespace Api.Controllers
 
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult DeleteProductFromCart(int id)
+        [HttpDelete("{productID}")]
+        public ActionResult DeleteProductFromCart(int productID)
         {
-            var userID = "19";
+            var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
                                                            .Select(c => c.ID).FirstOrDefault();
-            var productCartViewModel = new ProductCartViewModel() { cartId = cartID, productId = id };
+            var productCartViewModel = new ProductCartViewModel() { cartId = cartID, productId = productID };
             var deletedProductCart = _productCartAppService.GetAllProductCart()
                                                  .FirstOrDefault(c => c.cartId == productCartViewModel.cartId && c.productId == productCartViewModel.productId);
             if(deletedProductCart == null)

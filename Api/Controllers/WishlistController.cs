@@ -34,8 +34,8 @@ namespace Api.Controllers
         {
             //get all products in specfic wishlist
             //firs get cart id of logged user
-           var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+            //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
             //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
                                                            .Select(w => w.ID).FirstOrDefault();
@@ -49,16 +49,16 @@ namespace Api.Controllers
             return Ok(productViewModels);
         }
         //[HttpPut]
-        [HttpPut("{id}")]
+        [HttpPost("{productID}")]
         //make it as httpPut because we will update on user wishlist
-        public IActionResult AddProductToWishList(int id)
+        public IActionResult AddProductToWishList(int productID)
         {
+            var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
             //get wishlist of current logged user
             //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var userID = "d323a82b-0292-4844-aa74-009dbcff12d1";
             var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
                                                            .Select(w => w.ID).FirstOrDefault();
-            var productWishListViewModel = new ProductWishListViewModel() { wishlistId = wishListID, productId = id };
+            var productWishListViewModel = new ProductWishListViewModel() { wishlistId = wishListID, productId = productID };
             var isExistingProductWishListViewModel = _productWishListAppService.GetAllProductWishList()
                                                 .FirstOrDefault(w => w.wishlistId == productWishListViewModel.wishlistId && w.productId == productWishListViewModel.productId);
 
@@ -72,13 +72,14 @@ namespace Api.Controllers
                 //this product exist in the wishlist you can not add it again
         }
         //[HttpDelete]
-        [HttpDelete("{producID}")]
-        public IActionResult DeleteFromWishList(int producID)
+        [HttpDelete("{productID}")]
+        public IActionResult DeleteFromWishList(int productID)
         {
-            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
+            //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
                                                            .Select(w => w.ID).FirstOrDefault();
-            var productWishlistViewModel = new ProductWishListViewModel() { wishlistId = wishListID, productId = producID };
+            var productWishlistViewModel = new ProductWishListViewModel() { wishlistId = wishListID, productId = productID };
             var deletedProductWishList = _productWishListAppService.GetAllProductWishList()
                                                  .FirstOrDefault(w => w.wishlistId == productWishlistViewModel.wishlistId && w.productId == productWishlistViewModel.productId);
 
