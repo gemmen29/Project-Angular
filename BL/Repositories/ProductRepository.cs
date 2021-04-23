@@ -80,5 +80,17 @@ namespace BL.Repositories
                 .ToList();
             return products;
         }
+        public int CountProducts(int categoryId = 0, int colorId = 0)
+        {
+            if(categoryId != 0)
+            {
+                return DbSet.Where(p => p.CategoryId == categoryId).Count();
+            }
+            if (colorId != 0)
+            {
+                return DbSet.Where(p => p.ColorId == colorId).Count();
+            }
+            return DbSet.Count();
+        }
     }
 }

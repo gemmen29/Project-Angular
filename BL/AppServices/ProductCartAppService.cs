@@ -47,6 +47,18 @@ namespace BL.AppServices
             return result;
         }
 
+        public bool CheckIfProductExistsInCart(string cartID , int productID)
+        {
+            var isExistProductInCart = TheUnitOfWork.ProductCart
+                .GetFirstOrDefault(c => c.CartID == cartID && c.productId == productID);
+            return isExistProductInCart == null ? false : true;
+        }
+
+        public int GetProductCartID(string cartID, int productID)
+        {
+            return TheUnitOfWork.ProductCart
+                .GetFirstOrDefault(c => c.CartID == cartID && c.productId == productID).ID;
+        }
 
     }
 }

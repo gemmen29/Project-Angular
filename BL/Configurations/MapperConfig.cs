@@ -16,8 +16,8 @@ namespace BL.Configurations
         public AutoMapperProfile()
         {
             CreateMap<Product, ProductViewModel>()
-                .ForMember(vm => vm.ColorName, vm => vm.MapFrom(m => m.Color.Name))
-                .ForMember(vm => vm.CategoryName, vm => vm.MapFrom(m => m.Category.Name))
+                //.ForMember(vm => vm.ColorName, vm => vm.MapFrom(m => m.Color.Name))
+                //.ForMember(vm => vm.CategoryName, vm => vm.MapFrom(m => m.Category.Name))
                 .ReverseMap()
                 .ForMember(m => m.Color, m => m.Ignore())
                 .ForMember(m => m.Category, m => m.Ignore());

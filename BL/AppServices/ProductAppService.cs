@@ -8,6 +8,7 @@ using BL.Interfaces;
 using BL.Dtos;
 using DAL.Models;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace BL.AppServices
 {
@@ -35,14 +36,28 @@ namespace BL.AppServices
 
             return Mapper.Map<List<ProductViewModel>>(searchRes);
         }
-        public List<ProductViewModel> GetAllProductWhere( string productToSearch)
+
+        public IEnumerable<ProductViewModel> GetProductsByCategoryIdPagination(int catId, int pageSize, int pageNumber)
+        {
+            pageSize = (pageSize <= 0) ? 10 : pageSize;
+            pageNumber = (pageNumber < 1) ? 0 : pageNumber - 1;
+            var products = TheUnitOfWork.Product.GetWhere(p => p.CategoryId == catId)
+                .Skip(pageNumber * pageSize).Take(pageSize)
+                .Include(p => p.Color)
+                .Include(p => p.Category)
+                .ToList(); ;
+
+            return Mapper.Map<List<ProductViewModel>>(products);
+        }
+
+        public IEnumerable<ProductViewModel> GetAllProductWhere( string productToSearch)
         {
             //    List<Product> products= TheUnitOfWork.Product.GetAllProduct().Where(p => p.Name.Contains(productToSearch)).ToList();
             var searchRes = TheUnitOfWork.Product.GetWhere(p => p.Name.Contains(productToSearch), "Reviews");
 
             return Mapper.Map<List<ProductViewModel>>(searchRes);
         }
-        public ProductViewModel GetPoduct(int id)
+        public ProductViewModel GetProduct(int id)
         {
             return Mapper.Map<ProductViewModel>(TheUnitOfWork.Product.GetProductById(id));
         }
@@ -108,9 +123,9 @@ namespace BL.AppServices
         }
 
         #region pagination
-        public int CountEntity()
+        public int CountEntity(int categoryId = 0, int colorId = 0)
         {
-            return TheUnitOfWork.Product.CountEntity();
+            return TheUnitOfWork.Product.CountProducts(categoryId, colorId);
         }
         public IEnumerable<ProductViewModel> GetPageRecords(int pageSize, int pageNumber)
         {

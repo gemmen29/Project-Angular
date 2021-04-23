@@ -72,7 +72,7 @@ namespace Api.Controllers
             for (int i = 0; i < prodIds.Count; i++)
             {
 
-                var productViewModel = _productAppService.GetPoduct(prodIds[i]);
+                var productViewModel = _productAppService.GetProduct(prodIds[i]);
                 double totOrder = productViewModel.Price * quantities[i];
                 double AfterDiscount = totOrder - totOrder * (productViewModel.Discount / 100);
                 OrderProductViewModel orderProductViewModel = new OrderProductViewModel
@@ -119,7 +119,7 @@ namespace Api.Controllers
             var orderProductViewModels = _orderProductAppService.GetAllOrderProduct().Where(op => op.orderID == id).ToList();
             //foreach (var item in orderProductViewModels)
             //{
-            //    item.productName = _productAppService.GetPoduct(item.ProductID).Name;
+            //    item.productName = _productAppService.GetProduct(item.ProductID).Name;
             //}
 
             return Ok(_orderProductAppService.GetAllOrderProduct().Where(op => op.orderID == id).ToList());

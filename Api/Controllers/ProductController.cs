@@ -30,11 +30,18 @@ namespace Api.Controllers
         {
            
             return Ok(_productAppService.GetPoduct(id));
+            var res = _productAppService.GetProduct(id);
+            return Ok(_productAppService.GetProduct(id));
         }
         [HttpGet("newArrivals/{numOfProducts}")]
         public IActionResult GetNewArrivalsProducts(int numOfProducts)
         {
             return Ok(_productAppService.GetNewArrivalsProduct(numOfProducts));
+        }
+        [HttpGet("category/{catId}/{pageSize}/{pageNumber}")]
+        public IActionResult GetProductsByCategoryIdPagination(int catId, int pageSize, int pageNumber)
+        {
+            return Ok(_productAppService.GetProductsByCategoryIdPagination(catId, pageSize, pageNumber));
         }
         [HttpPost]
         public IActionResult Create(ProductViewModel productViewModel)
@@ -91,9 +98,9 @@ namespace Api.Controllers
         }
 
         [HttpGet("count")]
-        public IActionResult ProductsCount()
+        public IActionResult ProductsCount(int categoryId = 0, int colorId = 0)
         {
-            return Ok(_productAppService.CountEntity());
+            return Ok(_productAppService.CountEntity(categoryId, colorId));
         }
         [HttpGet("{pageSize}/{pageNumber}")]
         public IActionResult GetProductsByPage(int pageSize, int pageNumber)
