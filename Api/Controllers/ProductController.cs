@@ -28,7 +28,7 @@ namespace Api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetProductById(int id)
         {
-            var res = _productAppService.GetPoduct(id);
+           
             return Ok(_productAppService.GetPoduct(id));
         }
         [HttpGet("newArrivals/{numOfProducts}")]
