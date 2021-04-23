@@ -96,9 +96,9 @@ namespace Api.Controllers
         }
 
         [HttpGet("count")]
-        public IActionResult ProductsCount()
+        public IActionResult ProductsCount(int categoryId = 0, int colorId = 0)
         {
-            return Ok(_productAppService.CountEntity());
+            return Ok(_productAppService.CountEntity(categoryId, colorId));
         }
         [HttpGet("{pageSize}/{pageNumber}")]
         public IActionResult GetProductsByPage(int pageSize, int pageNumber)

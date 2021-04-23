@@ -1,5 +1,6 @@
 ﻿using BL.AppServices;
 using BL.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -38,8 +39,8 @@ namespace Api.Controllers
 
             //get all products in specfic cart
             //firs get cart id of logged user
-            var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
-            //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //var userID = "88d2bf8e-a1ec-41ee-a0da-22d9e25ca54b";
+            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             //var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
             //                                               .Select(c => c.ID).FirstOrDefault();
             var productIDs = _productCartAppService.GetAllProductCart().Where(pc => pc.cartId == userID).Select(prc => prc.productId);
@@ -59,11 +60,12 @@ namespace Api.Controllers
         }
 
         [HttpPost("{productID}")]
+        [Authorize]
         public IActionResult AddProductToCart(int productID)
         {
             //get cart of current logged user
-            var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
-            //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //var userID = "88d2bf8e-a1ec-41ee-a0da-22d9e25ca54b";
+            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             //var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
             //                                               .Select(c => c.ID).FirstOrDefault();
             var productCartViewModel = new ProductCartViewModel() { cartId = userID, productId = productID };

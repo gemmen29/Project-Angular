@@ -123,9 +123,9 @@ namespace BL.AppServices
         }
 
         #region pagination
-        public int CountEntity()
+        public int CountEntity(int categoryId = 0, int colorId = 0)
         {
-            return TheUnitOfWork.Product.CountEntity();
+            return TheUnitOfWork.Product.CountProducts(categoryId, colorId);
         }
         public IEnumerable<ProductViewModel> GetPageRecords(int pageSize, int pageNumber)
         {
