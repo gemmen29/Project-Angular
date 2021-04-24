@@ -15,18 +15,13 @@ namespace DAL
     {
         // public string Id{ get; set; }
         public string FirstName { get; set; }
-
         public string LastName { get; set; }
-
-
         public DateTime? BirthDate { get; set; }
-
         public string Address { get; set; }
         public string Country { get; set; }
         public string Gender { get; set; }
         [Required]
         public bool isDeleted { get; set; }
-
         public List<Payment> Payments { get; set; }
     }
     public class ApplicationUserStore : UserStore<ApplicationUserIdentity>

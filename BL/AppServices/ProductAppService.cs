@@ -49,11 +49,23 @@ namespace BL.AppServices
 
             return Mapper.Map<List<ProductViewModel>>(products);
         }
+        public IEnumerable<ProductViewModel> GetProductsByColorIdPagination(int colorId, int pageSize, int pageNumber)
+        {
+            pageSize = (pageSize <= 0) ? 10 : pageSize;
+            pageNumber = (pageNumber < 1) ? 0 : pageNumber - 1;
+            var products = TheUnitOfWork.Product.GetWhere(p => p.ColorId == colorId)
+                .Skip(pageNumber * pageSize).Take(pageSize)
+                .Include(p => p.Color)
+                .Include(p => p.Category)
+                .ToList(); ;
 
-        public IEnumerable<ProductViewModel> GetAllProductWhere( string productToSearch)
+            return Mapper.Map<List<ProductViewModel>>(products);
+        }
+
+        public IEnumerable<ProductViewModel> GetProductsBySearch( string productToSearch)
         {
             //    List<Product> products= TheUnitOfWork.Product.GetAllProduct().Where(p => p.Name.Contains(productToSearch)).ToList();
-            var searchRes = TheUnitOfWork.Product.GetWhere(p => p.Name.Contains(productToSearch), "Reviews");
+            var searchRes = TheUnitOfWork.Product.GetWhere(p => p.Name.Contains(productToSearch));
 
             return Mapper.Map<List<ProductViewModel>>(searchRes);
         }
@@ -99,13 +111,6 @@ namespace BL.AppServices
             TheUnitOfWork.Product.Update(product);
             TheUnitOfWork.Commit();
             return true;
-        }
-
-        public IEnumerable<ProductViewModel> SearchFor(string productToSearch)
-        {
-            return GetAllProductWhere(productToSearch);
-       
-           
         }
         public bool DeleteProduct(int id)
         {
