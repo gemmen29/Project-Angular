@@ -29,7 +29,7 @@ namespace Api.Controllers
         public IActionResult GetProductById(int id)
         {
            
-            return Ok(_productAppService.GetPoduct(id));
+          
             var res = _productAppService.GetProduct(id);
             return Ok(_productAppService.GetProduct(id));
         }

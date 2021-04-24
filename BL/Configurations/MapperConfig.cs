@@ -23,9 +23,14 @@ namespace BL.Configurations
                 .ForMember(m => m.Category, m => m.Ignore());
 
            CreateMap<Order, OrderViewModel>().ReverseMap();
-           CreateMap<OrderProduct, OrderProductViewModel>().ForMember(vm => vm.productName, m => m.MapFrom(u => u.Product.Name)).ReverseMap();
+           CreateMap<OrderProduct, OrderProductViewModel>()
+                .ForMember(vm => vm.productName, m => m.MapFrom(u => u.Product.Name)).ReverseMap()
+                 .ForMember(m => m.Order, m => m.Ignore())
+                .ForMember(m => m.Product, m => m.Ignore());
 
-           CreateMap<IdentityRole, RoleViewModel>().ReverseMap();
+
+
+            CreateMap<IdentityRole, RoleViewModel>().ReverseMap();
            CreateMap<IdentityRole, UserRolesViewModel>().ReverseMap();
            CreateMap<Reviews, ReviewsViewModel>().ReverseMap();
 
