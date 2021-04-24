@@ -43,25 +43,18 @@ namespace Api.Controllers
         }
 
 
-
         [HttpPost]
-        public IActionResult makeOrder(int[] quantities, double totalOrderPrice)
+        public IActionResult makeOrder(OrderDetailsViewModel orderDetailsViewModel)//, double totalOrderPrice)
         {
-
+          
             //get cart id of current logged user
-            var userID = "19";
-            //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
-                                                           .Select(c => c.ID).FirstOrDefault();
-            //get product ids from this card
-            var prodIds = _productCartAppService.GetAllProductCart().Where(pc => pc.cartId == cartID)
-                                                                 .Select(pc => pc.productId).ToList();
-
+       
+            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             OrderViewModel orderViewModel = new OrderViewModel
             {
                 date = DateTime.Now.ToString(),
 
-                totalPrice = totalOrderPrice,
+                totalPrice = orderDetailsViewModel.totalOrderPrice,
                 ApplicationUserIdentity_Id = userID
 
             };
@@ -69,46 +62,37 @@ namespace Api.Controllers
             var lastOrder = _orderAppService.GetAllOrder().Select(o => o.Id).LastOrDefault();
 
             //get know details of each product
-            for (int i = 0; i < prodIds.Count; i++)
+            for (int i = 0; i < orderDetailsViewModel.productCartDetails.Count; i++)
             {
-
-                var productViewModel = _productAppService.GetProduct(prodIds[i]);
-                double totOrder = productViewModel.Price * quantities[i];
-                double AfterDiscount = totOrder - totOrder * (productViewModel.Discount / 100);
+                var current = orderDetailsViewModel.productCartDetails[i];
+                //var productViewModel = _productAppService.GetProduct(prodIds[i]);
+                double totalOrder = current.productPrice * current.quantity;
+                double AfterDiscount = totalOrder - totalOrder * (current.productDiscount / 100);
                 OrderProductViewModel orderProductViewModel = new OrderProductViewModel
                 {
                     orderID = lastOrder,
-                    ProductID = productViewModel.ID,
-                    productDiscount = productViewModel.Discount,
-                    productQuantity = quantities[i],
-                    productTotal = totOrder,
+                    ProductID = current.productId,
+                    productDiscount = current.productDiscount,
+                    productQuantity = current.quantity,
+                    productTotal = totalOrder,
                     ProductNetPrice = AfterDiscount
                 };
                 _orderProductAppService.SaveNewOrderProduct(orderProductViewModel);
                 //decrease amount of product
-                _productAppService.DecreaseQuantity(productViewModel.ID, quantities[i]);
+                _productAppService.DecreaseQuantity(current.productId, current.quantity);
 
+              var productCartID=  _productCartAppService.GetProductCartID(userID, current.productId);
 
-                var productCartID = _productCartAppService.GetAllProductCart()
-                                                       .Where(prc => prc.cartId == cartID && prc.productId == productViewModel.ID)
-                                                       .Select(prc => prc.ID).FirstOrDefault();
+       
                 _productCartAppService.DeleteProductCart(productCartID);
 
             }
 
-            //notify admin by the product that had been bought
-            var productQuantities = new List<ProductQuantitiesCheckoutViewModel>();
-            for (int i = 0; i < quantities.Length; i++)
-            {
-                productQuantities.Add(
-                new ProductQuantitiesCheckoutViewModel
-                {
-                    ProductID = prodIds[i],
-                    Quantity = quantities[i]
-                });
-            }
-            return RedirectToAction("index", "home");
+        
+            return Ok();
         }
+
+        
 
         //[HttpGet]
         //Route[("api/[controller]/{id}")]
