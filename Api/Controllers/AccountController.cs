@@ -25,12 +25,19 @@ namespace Api.Controllers
         private CartAppService _cartAppService;
         private WishlistAppService _wishlistAppService;
         private RoleAppService _roleAppService;
-        public AccountController(AccountAppService accountAppService,CartAppService cartAppService,WishlistAppService wishlistAppService, RoleAppService roleAppService)
+        IHttpContextAccessor _httpContextAccessor;
+        public AccountController(
+            AccountAppService accountAppService,
+            CartAppService cartAppService,
+            WishlistAppService wishlistAppService, 
+            RoleAppService roleAppService,
+            IHttpContextAccessor httpContextAccessor)
         {
             this._accountAppService = accountAppService;
             this._cartAppService = cartAppService;
             this._wishlistAppService = wishlistAppService;
             this._roleAppService = roleAppService;
+            this._httpContextAccessor = httpContextAccessor;
         }
         [HttpGet]
         public IActionResult GetAll()
@@ -42,6 +49,14 @@ namespace Api.Controllers
         public IActionResult GetUserById(string id)
         {
             var res = _accountAppService.GetAccountById(id);
+            return Ok(res);
+        }
+
+        [HttpGet("current")]
+        public IActionResult GetCurrentUser()
+        ;{
+            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var res = _accountAppService.GetAccountById(userID);
             return Ok(res);
         }
         [HttpPost("/RegisterAdmin")]
