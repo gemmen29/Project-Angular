@@ -26,7 +26,6 @@ namespace DAL.Models
         public string cardOwnerName { get; set; }
 
         [Required]
-
         [MinLength(3), MaxLength(3)]
         public string cvc { get; set; }
 

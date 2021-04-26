@@ -43,6 +43,16 @@ namespace Api.Controllers
         {
             return Ok(_productAppService.GetProductsByCategoryIdPagination(catId, pageSize, pageNumber));
         }
+        [HttpGet("color/{colorId}/{pageSize}/{pageNumber}")]
+        public IActionResult GetProductsByColorIdPagination(int colorId, int pageSize, int pageNumber)
+        {
+            return Ok(_productAppService.GetProductsByColorIdPagination(colorId, pageSize, pageNumber));
+        }
+        [HttpGet("search/{searchKeyWord}")]
+        public IActionResult GetProductsBySearchKeyWord(string searchKeyWord)
+        {
+            return Ok(_productAppService.GetProductsBySearch(searchKeyWord));
+        }
         [HttpPost]
         public IActionResult Create(ProductViewModel productViewModel)
         {
