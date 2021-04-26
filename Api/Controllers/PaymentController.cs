@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BL.AppServices;
 using BL.Dtos;
+using System.Security.Claims;
 
 namespace Api.Controllers
 {
@@ -14,9 +15,11 @@ namespace Api.Controllers
     public class PaymentController : ControllerBase
     {
         private PaymentAppService _paymentAppService;
-        public PaymentController(PaymentAppService paymentAppService)
+        private IHttpContextAccessor _httpContextAccessor;
+        public PaymentController(PaymentAppService paymentAppService, IHttpContextAccessor httpContextAccessor)
         {
             _paymentAppService = paymentAppService;
+            _httpContextAccessor = httpContextAccessor;
         }
         [HttpGet]
         public IActionResult GetAllPayment()
@@ -29,7 +32,8 @@ namespace Api.Controllers
         [HttpPost]
         public IActionResult Create(PaymentViewModel paymentViewModel)
         {
-            //paymentViewModel.ApplicationUserIdentity_Id = User.Identity.GetUserId();
+            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            paymentViewModel.ApplicationUserIdentity_Id = userID;
             var payments = _paymentAppService.GetAllPayments();
             if (ModelState.IsValid == false)
                 return BadRequest(ModelState);

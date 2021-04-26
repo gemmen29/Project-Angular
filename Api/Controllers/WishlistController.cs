@@ -34,8 +34,8 @@ namespace Api.Controllers
         {
             //get all products in specfic wishlist
             //firs get cart id of logged user
-            //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var userID = "88d2bf8e-a1ec-41ee-a0da-22d9e25ca54b";
+            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //var userID = "88d2bf8e-a1ec-41ee-a0da-22d9e25ca54b";
             //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             //var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
             //                                               .Select(w => w.ID).FirstOrDefault();

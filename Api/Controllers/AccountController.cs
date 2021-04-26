@@ -54,7 +54,7 @@ namespace Api.Controllers
 
         [HttpGet("current")]
         public IActionResult GetCurrentUser()
-        ;{
+        {
             var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var res = _accountAppService.GetAccountById(userID);
             return Ok(res);
