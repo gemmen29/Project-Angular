@@ -53,6 +53,10 @@ namespace BL.Repositories
         {
             return DbSet.Count();
         }
+        public  int CountEntityForSpeCifcUser(string userID)
+        {
+            return DbSet.Where(o=>o.ApplicationUserIdentity_Id== userID).Count();
+        }
         public override IEnumerable<Order> GetPageRecords(int pageSize, int pageNumber)
         {
             pageSize = (pageSize <= 0) ? 10 : pageSize;
@@ -61,6 +65,15 @@ namespace BL.Repositories
              var kk= DbSet.Skip(pageNumber * pageSize).Take(pageSize).Include(order=>order.appUser);
           
             return DbSet.Skip(pageNumber * pageSize).Take(pageSize).Include(order=>order.appUser);
+        }
+        public  IEnumerable<Order> GetPageRecordsForSpeceficUser(string userID,int pageSize, int pageNumber)
+        {
+            pageSize = (pageSize <= 0) ? 10 : pageSize;
+            pageNumber = (pageNumber < 1) ? 0 : pageNumber - 1;
+
+            return DbSet.Where(o => o.ApplicationUserIdentity_Id == userID).Skip(pageNumber * pageSize).Take(pageSize).Include(order => order.appUser);
+
+          
         }
 
     }

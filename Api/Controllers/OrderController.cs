@@ -114,11 +114,22 @@ namespace Api.Controllers
         {
             return Ok(_orderAppService.CountEntity());
         }
+        [HttpGet("countOrdersForSpecifcUser/{userID}")]
+        public IActionResult OrderCount(string userID)
+        {
+            return Ok(_orderAppService.CountEntityForSpecficUser(userID));
+        }
         [HttpGet("{pageSize}/{pageNumber}")]
         public IActionResult GetOrdersByPage(int pageSize, int pageNumber)
         {
             var list = _orderAppService.GetPageRecords(pageSize, pageNumber);
             return Ok(_orderAppService.GetPageRecords(pageSize, pageNumber));
+        }
+        [HttpGet("{userID}/{pageSize}/{pageNumber}")]
+        public IActionResult GetOrdersByPageForSpecficUser(string userID,int pageSize, int pageNumber)
+        {
+          
+            return Ok(_orderAppService.GetPageRecordsForSpeceficUser(userID,pageSize, pageNumber));
         }
     }
 }

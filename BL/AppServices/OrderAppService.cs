@@ -91,9 +91,17 @@ namespace BL.AppServices
         {
             return TheUnitOfWork.Order.CountEntity();
         }
+        public int CountEntityForSpecficUser(string userID)
+        {
+            return TheUnitOfWork.Order.CountEntityForSpeCifcUser(userID);
+        }
         public IEnumerable<OrderViewModel> GetPageRecords(int pageSize, int pageNumber)
         {
             return Mapper.Map<List<OrderViewModel>>(TheUnitOfWork.Order.GetPageRecords(pageSize, pageNumber));
+        }
+        public IEnumerable<OrderViewModel> GetPageRecordsForSpeceficUser(string userID,int pageSize, int pageNumber)
+        {
+            return Mapper.Map<List<OrderViewModel>>(TheUnitOfWork.Order.GetPageRecordsForSpeceficUser(userID,pageSize, pageNumber));
         }
 
     }
