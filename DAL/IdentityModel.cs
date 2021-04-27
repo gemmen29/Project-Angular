@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -77,7 +79,8 @@ namespace DAL
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=TestCore2;Integrated Security=True"
+             optionsBuilder
+                .UseSqlServer("Data Source=.;Initial Catalog=TestCore2;Integrated Security=True"
                 , options => options.EnableRetryOnFailure());
         }
         protected override void OnModelCreating(ModelBuilder builder)

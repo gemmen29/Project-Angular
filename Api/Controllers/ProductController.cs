@@ -38,6 +38,11 @@ namespace Api.Controllers
         {
             return Ok(_productAppService.GetNewArrivalsProduct(numOfProducts));
         }
+        [HttpGet("relatedProducts/{categoryId}/{numberOfProducts}")]
+        public IActionResult GetRandomRelatedProducts(int categoryId, int numberOfProducts)
+        {
+            return Ok(_productAppService.GetRandomRelatedProducts(categoryId, numberOfProducts));
+        }
         [HttpGet("category/{catId}/{pageSize}/{pageNumber}")]
         public IActionResult GetProductsByCategoryIdPagination(int catId, int pageSize, int pageNumber)
         {

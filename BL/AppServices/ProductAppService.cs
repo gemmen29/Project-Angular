@@ -37,6 +37,14 @@ namespace BL.AppServices
             return Mapper.Map<List<ProductViewModel>>(searchRes);
         }
 
+        public IEnumerable<ProductViewModel> GetRandomRelatedProducts(int categoryId, int numberOfProducts)
+        {
+            IEnumerable<Product> relatedProducts = TheUnitOfWork.Product
+                .GetRandomRelatedProducts(categoryId, numberOfProducts);
+            return Mapper.Map<IEnumerable<ProductViewModel>>(relatedProducts);
+
+        }
+
         public IEnumerable<ProductViewModel> GetProductsByCategoryIdPagination(int catId, int pageSize, int pageNumber)
         {
             pageSize = (pageSize <= 0) ? 10 : pageSize;

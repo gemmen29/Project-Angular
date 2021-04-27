@@ -66,6 +66,18 @@ namespace BL.Repositories
                 .FirstOrDefault(p => p.ID == id);
             return product;
         }
+
+        internal IEnumerable<Product> GetRandomRelatedProducts(int categoryId, int numberOfProducts)
+        {
+            var query = DbSet
+                    .Include(p => p.Color)
+                    .Include(p => p.Category)
+                    .Where(p => p.CategoryId == categoryId)
+                    .OrderBy(p => Guid.NewGuid())
+                    .Take(numberOfProducts);
+            var x = query.ToQueryString();
+            return query;
+        }
         #endregion
 
         public override IEnumerable<Product> GetPageRecords(int pageSize, int pageNumber)
@@ -77,6 +89,7 @@ namespace BL.Repositories
                 .Skip(pageNumber * pageSize).Take(pageSize)
                 .Include(p => p.Color)
                 .Include(p => p.Category)
+                .Include(p=> p.Reviews.Select(r=>r.Rating)) // 
                 .ToList();
             return products;
         }
