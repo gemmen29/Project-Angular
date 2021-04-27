@@ -49,7 +49,7 @@ namespace DAL.Models
         public List<ProductWishList> Wishlists { get; set; } = new List<ProductWishList>();
 
         public List<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
-        public List<Reviews> Reviews { get; set; } = new List<Reviews>();
+        public List<Review> Reviews { get; set; } = new List<Review>();
 
 
     }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.Migrations
 {
-    public partial class init : Migration
+    public partial class changeReview : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -385,22 +385,22 @@ namespace DAL.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    rating = table.Column<int>(type: "int", nullable: false),
-                    productID = table.Column<int>(type: "int", nullable: false),
-                    userID = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Rating = table.Column<int>(type: "int", nullable: false),
+                    ProductID = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Review", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Review_AspNetUsers_userID",
-                        column: x => x.userID,
+                        name: "FK_Review_AspNetUsers_UserID",
+                        column: x => x.UserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Review_Product_productID",
-                        column: x => x.productID,
+                        name: "FK_Review_Product_ProductID",
+                        column: x => x.ProductID,
                         principalTable: "Product",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -496,14 +496,14 @@ namespace DAL.Migrations
                 column: "WishlistID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Review_productID",
+                name: "IX_Review_ProductID",
                 table: "Review",
-                column: "productID");
+                column: "ProductID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Review_userID",
+                name: "IX_Review_UserID",
                 table: "Review",
-                column: "userID");
+                column: "UserID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

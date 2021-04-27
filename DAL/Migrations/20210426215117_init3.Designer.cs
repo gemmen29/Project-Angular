@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20210423001659_init")]
-    partial class init
+    [Migration("20210426215117_init3")]
+    partial class init3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -327,30 +327,30 @@ namespace DAL.Migrations
                     b.ToTable("ProductWishLists");
                 });
 
-            modelBuilder.Entity("DAL.Models.Reviews", b =>
+            modelBuilder.Entity("DAL.Models.Review", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Comment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("productID")
+                    b.Property<int>("ProductID")
                         .HasColumnType("int");
 
-                    b.Property<int>("rating")
+                    b.Property<int>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<string>("userID")
+                    b.Property<string>("UserID")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("productID");
+                    b.HasIndex("ProductID");
 
-                    b.HasIndex("userID");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Review");
                 });
@@ -597,21 +597,21 @@ namespace DAL.Migrations
                     b.Navigation("Wishlist");
                 });
 
-            modelBuilder.Entity("DAL.Models.Reviews", b =>
+            modelBuilder.Entity("DAL.Models.Review", b =>
                 {
-                    b.HasOne("DAL.Models.Product", "product")
+                    b.HasOne("DAL.Models.Product", "Product")
                         .WithMany("Reviews")
-                        .HasForeignKey("productID")
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DAL.ApplicationUserIdentity", "user")
+                    b.HasOne("DAL.ApplicationUserIdentity", "User")
                         .WithMany()
-                        .HasForeignKey("userID");
+                        .HasForeignKey("UserID");
 
-                    b.Navigation("product");
+                    b.Navigation("Product");
 
-                    b.Navigation("user");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DAL.Models.Wishlist", b =>

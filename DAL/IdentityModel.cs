@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,14 @@ namespace DAL
         // public string Id{ get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        [NotMapped]
+        public string FullName 
+        {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            } 
+        }
         public DateTime? BirthDate { get; set; }
         public string Address { get; set; }
         public string Country { get; set; }
@@ -89,7 +98,7 @@ namespace DAL
         public DbSet<Product> Products { get; set; }
         public DbSet<Wishlist> Wishlists { get; set; }
         public DbSet<Payment> Payments { get; set; }
-        public DbSet<Reviews> Reviews { get; set; }
+        public DbSet<Review> Reviews { get; set; }
         public DbSet<Color> Colors { get; set; }
 
         public DbSet<ProductCart> ProductCarts { get; set; }
