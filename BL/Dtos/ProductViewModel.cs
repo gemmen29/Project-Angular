@@ -35,6 +35,6 @@ namespace BL.Dtos
         public int ColorId { get; set; }
         public string ColorName { get; set; }
         public string CategoryName { get; set; }
-        public double AverageRate { get; set; }
+        public double? AverageRating { get; set; }
     }
 }

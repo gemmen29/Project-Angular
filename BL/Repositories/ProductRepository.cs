@@ -26,15 +26,22 @@ namespace BL.Repositories
             return GetAll()
                 .Include(p=>p.Color)
                 .Include(p => p.Category)
+                .Include(p => p.Reviews)
                 .ToList();
         }
         public IEnumerable<Product> GetNewArrivalsProduct(int numberOfProducts = 0)
         {
             IEnumerable<Product> newArivailsProducts;
             if (numberOfProducts <= 0)
-                newArivailsProducts = DbSet.OrderByDescending(p => p.ID);
+                newArivailsProducts = DbSet
+                    .Include(p=>p.Reviews)
+                    .Include(p => p.Category)
+                    .Include(p => p.Color)
+                    .OrderByDescending(p => p.ID);
             else
-                newArivailsProducts = DbSet.OrderByDescending(p => p.ID).Take(numberOfProducts);
+                newArivailsProducts = DbSet
+                    .Include(p => p.Reviews)
+                    .OrderByDescending(p => p.ID).Take(numberOfProducts);
 
             return newArivailsProducts;
         }
@@ -63,6 +70,7 @@ namespace BL.Repositories
             var product = DbSet
                 .Include(p => p.Color)
                 .Include(p => p.Category)
+                .Include(p => p.Reviews)
                 .FirstOrDefault(p => p.ID == id);
             return product;
         }
@@ -72,6 +80,7 @@ namespace BL.Repositories
             var query = DbSet
                     .Include(p => p.Color)
                     .Include(p => p.Category)
+                    .Include(p => p.Reviews)
                     .Where(p => p.CategoryId == categoryId)
                     .OrderBy(p => Guid.NewGuid())
                     .Take(numberOfProducts);
@@ -89,7 +98,7 @@ namespace BL.Repositories
                 .Skip(pageNumber * pageSize).Take(pageSize)
                 .Include(p => p.Color)
                 .Include(p => p.Category)
-                .Include(p=> p.Reviews.Select(r=>r.Rating)) // 
+                .Include(p=> p.Reviews)
                 .ToList();
             return products;
         }
