@@ -20,9 +20,9 @@ namespace BL.Repositories
         }
         #region CRUB
 
-        public List<ProductCart> GetAllProductCart()
+        public List<ProductCart> GetAllProductCart(string cartId)
         {
-            return GetAll().ToList();
+            return DbSet.Where(pc => pc.CartID == cartId).Include(pc => pc.product).ToList();
         }
 
         public bool InsertProductCart(ProductCart productCart)

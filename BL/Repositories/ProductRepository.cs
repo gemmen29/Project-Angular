@@ -37,11 +37,11 @@ namespace BL.Repositories
                     .Include(p=>p.Reviews)
                     .Include(p => p.Category)
                     .Include(p => p.Color)
-                    .OrderByDescending(p => p.ID);
+                    .OrderByDescending(p => p.ID).Take(10).ToList();
             else
                 newArivailsProducts = DbSet
                     .Include(p => p.Reviews)
-                    .OrderByDescending(p => p.ID).Take(numberOfProducts);
+                    .OrderByDescending(p => p.ID).Take(numberOfProducts).ToList();
 
             return newArivailsProducts;
         }
