@@ -17,18 +17,17 @@ namespace BL.AppServices
         {
 
         }
-        public List<ProductCartViewModel> GetAllProductCart()
+        public List<ProductCartViewModel> GetAllProductCart(string cartId)
         {
 
-            return Mapper.Map<List<ProductCartViewModel>>(TheUnitOfWork.ProductCart.GetAllProductCart());
+            return Mapper.Map<List<ProductCartViewModel>>(TheUnitOfWork.ProductCart.GetAllProductCart(cartId));
         }
    
-        public bool SaveNewProductCart(ProductCartViewModel productCartViewModel)
+        public bool SaveNewProductCart(ProductCart productCart)
         {
-            if (productCartViewModel == null)
+            if (productCart== null)
                 throw new ArgumentNullException();
             bool result = false;
-            var productCart = Mapper.Map<ProductCart>(productCartViewModel);
             if (TheUnitOfWork.ProductCart.Insert(productCart))
             {
                 result = TheUnitOfWork.Commit() > new int();

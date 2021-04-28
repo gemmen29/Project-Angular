@@ -39,7 +39,11 @@ namespace DAL.Models
         [NotMapped]
         public double? AverageRating 
         {
-            get { return Reviews.Select(r => r.Rating).Average(); } 
+            get { 
+                if(Reviews.Count != 0)
+                    return Reviews.Select(r => r.Rating).Average();
+                return null;
+            } 
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using BL.AppServices;
 using BL.Dtos;
+using DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,24 +40,24 @@ namespace Api.Controllers
 
             //get all products in specfic cart
             //firs get cart id of logged user
-            //var userID = "88d2bf8e-a1ec-41ee-a0da-22d9e25ca54b";
+            //var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
             var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             //var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
             //                                               .Select(c => c.ID).FirstOrDefault();
-            var productIDs = _productCartAppService.GetAllProductCart().Where(pc => pc.cartId == userID).Select(prc => prc.productId);
-            List<ProductViewModel> productViewModels = new List<ProductViewModel>();
-            foreach (var proID in productIDs)
-            {
-                var product = _productAppService.GetProduct(proID);
-                productViewModels.Add(product);
-            }
+            var productCartVM = _productCartAppService.GetAllProductCart(userID);
+            //List<ProductViewModel> productViewModels = new List<ProductViewModel>();
+            //foreach (var proID in productIDs)
+            //{
+            //    var product = _productAppService.GetProduct(proID);
+            //    productViewModels.Add(product);
+            //}
             //CartAndPaymentInfoViewModel cartDetailsViewModel = new CartAndPaymentInfoViewModel
             //{
             //    paymentViewModels = _paymentAppService.GetPaymentsOfUser(userID),
             //    productViewModels = productViewModels
 
             //};
-            return Ok(productViewModels);
+            return Ok(productCartVM);
         }
 
         [HttpPost("{productID}")]
@@ -68,13 +69,13 @@ namespace Api.Controllers
             var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             //var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
             //                                               .Select(c => c.ID).FirstOrDefault();
-            var productCartViewModel = new ProductCartViewModel() { cartId = userID, productId = productID };
+            var productCart = new ProductCart() { CartID = userID, productId = productID };
             //var isExistingProductCartViewModel = _productCartAppService.GetAllProductCart()
             //                                     .FirstOrDefault(c => c.cartId == productCartViewModel.cartId && c.productId == productCartViewModel.productId);
             var isExistingProductCartViewModel = _productCartAppService.CheckIfProductExistsInCart(userID, productID);
             if (isExistingProductCartViewModel == false)
             {
-                _productCartAppService.SaveNewProductCart(productCartViewModel);
+                _productCartAppService.SaveNewProductCart(productCart);
                 return Ok();
             }
             return BadRequest("This product already exist in cart");
@@ -84,8 +85,8 @@ namespace Api.Controllers
         [HttpDelete("{productID}")]
         public ActionResult DeleteProductFromCart(int productID)
         {
-            var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
-            //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
+            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             //var cartID = _cartAppService.GetAllCarts().Where(c => c.ID == userID)
             //                                               .Select(c => c.ID).FirstOrDefault();
             //var productCartViewModel = new ProductCartViewModel() { cartId = userID, productId = productID };
