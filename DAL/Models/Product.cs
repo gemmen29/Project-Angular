@@ -30,7 +30,6 @@ namespace DAL.Models
         [Range(5, int.MaxValue, ErrorMessage = "Discout Must be more than 5")]
         public double Discount{ get; set; }
 
-       
         public string Image { get; set; }
 
       
@@ -39,7 +38,12 @@ namespace DAL.Models
         [NotMapped]
         public double? AverageRating 
         {
-            get { return Reviews.Select(r => r.Rating).Average(); } 
+            get 
+            {
+                if(Reviews.Count == 0)
+                    return null;
+                return Reviews.Select(r => r.Rating).Average();
+            } 
         }
 
 

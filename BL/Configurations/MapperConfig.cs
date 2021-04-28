@@ -28,8 +28,6 @@ namespace BL.Configurations
                 .ForMember(m => m.Order, m => m.Ignore())
                 .ForMember(m => m.Product, m => m.Ignore());
 
-
-
             CreateMap<IdentityRole, RoleViewModel>().ReverseMap();
             CreateMap<IdentityRole, UserRolesViewModel>().ReverseMap();
             CreateMap<Review, ReviewsViewModel>()
