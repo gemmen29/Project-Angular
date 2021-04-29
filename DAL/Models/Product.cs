@@ -36,10 +36,15 @@ namespace DAL.Models
       
         [Range(1, int.MaxValue, ErrorMessage = "Quantity Must be more than 1")]
         public int Quantity { get; set; }
+
         [NotMapped]
         public double? AverageRating 
         {
-            get { return Reviews.Select(r => r.Rating).Average(); } 
+            get { 
+                if(this.Reviews.Count != 0)
+                  return Reviews.Select(r => r.Rating).Average();
+                return null;
+            } 
         }
 
 
