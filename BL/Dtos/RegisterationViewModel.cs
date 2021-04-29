@@ -54,5 +54,7 @@ namespace BL.Dtos
 
         [Required]
         public bool isDeleted { get; set; }
+
+        public string FullName { get; set; }
     }
 }
