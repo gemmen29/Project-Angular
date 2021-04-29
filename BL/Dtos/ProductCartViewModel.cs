@@ -11,5 +11,12 @@ namespace BL.Dtos
         public int ID { get; set; }
         public int productId { get; set; }
         public string cartId { get; set; }
+
+        public string ProductImage { get; set; }
+        public double ProductPrice { get; set; }
+        public string ProductName { get; set; }
+        public int ProductDiscount { get; set; }
+        public int ProductQuantity { get; set; }
+
     }
 }

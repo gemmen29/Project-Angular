@@ -41,8 +41,8 @@ namespace DAL.Models
         public double? AverageRating 
         {
             get { 
-                if(this.Reviews.Count != 0)
-                  return Reviews.Select(r => r.Rating).Average();
+                if(Reviews.Count != 0)
+                    return Reviews.Select(r => r.Rating).Average();
                 return null;
             } 
         }
