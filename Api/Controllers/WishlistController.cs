@@ -53,9 +53,9 @@ namespace Api.Controllers
         //make it as httpPut because we will update on user wishlist
         public IActionResult AddProductToWishList(int productID)
         {
-            var userID = "88d2bf8e-a1ec-41ee-a0da-22d9e25ca54b";
+            //var userID = "88d2bf8e-a1ec-41ee-a0da-22d9e25ca54b";
             //get wishlist of current logged user
-            //var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             //var wishListID = _wishlistAppService.GetAllWishlists().Where(w => w.ID == userID)
             //                                               .Select(w => w.ID).FirstOrDefault();
             var productWishListViewModel = new ProductWishListViewModel() { wishlistId = userID, productId = productID };
@@ -73,7 +73,8 @@ namespace Api.Controllers
         [HttpDelete("{productID}")]
         public IActionResult DeleteFromWishList(int productID)
         {
-            var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
+            //var userID = "2be43fb0-6f7f-4662-893b-66bd033beda6";
+            var userID = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var isExistingProductWishListViewModel = _productWishListAppService.CheckIfProductExistsInWishlist(userID, productID);
             if (isExistingProductWishListViewModel == true)
             {
